@@ -7,7 +7,7 @@ const res = require('./config/Res');
 
 class ProductMeta{
 
-        static getproductdata = async ()=> {
+        static getproductdataamazon = async ()=> {
             let [page,browser] = await Helper.createpage();
             page =await Helper.openurl(page,config.SCRAPE.amazon.product_url);
             // page.waitForNavigation()
@@ -36,7 +36,8 @@ class ProductMeta{
           // console.log("names",names);
                    
             // return [page,browser]      
-            }       
+            }
+               
       }
 
 
