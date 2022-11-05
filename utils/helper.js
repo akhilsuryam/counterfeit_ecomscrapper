@@ -132,9 +132,9 @@ class Helper {
     static async getmetaDataF(page, config){
       try {
           // let meta_array=[];
-          let metadata = await page.evaluate(async (config) => {
+          let metadata = await page.evaluate(async (page,config) => {
               let meta_array=[];
-              let detail;
+              let details;
               let index;
               let prod_name;
               let description;
@@ -152,11 +152,12 @@ class Helper {
               let obj;
               
               console.log("details", config.SCRAPE.flipkart.detail[0].parentclass);
-              detail = document.getElementsByClassName(config.SCRAPE.flipkart.detail[0].parentclass) // specification
-              if (detail.length != 0) { // SPECIFICATION
+              details = document.getElementsByClassName(config.SCRAPE.flipkart.detail[0].parentclass) // specification
+              if (details.length != 0) { // SPECIFICATION
                   index = 0; 
                   
               } else {        // PRODUCT DET
+                  details = document.getElementsByClassName(config.SCRAPE.flipkart.detail[1].parentclass)
                   index = 1;
               }
               try{
@@ -200,8 +201,9 @@ class Helper {
               console.log(mrp);
               console.log(sale_price);
               console.log(assured);
-
-              for (let i =0; i < detail.length; i++){
+              console.log(details.length)
+              for (let i =0; i < details.length; i++){
+                console.log(i)
                   try {
                       //obj 1 till 40
                       try {
@@ -237,7 +239,7 @@ class Helper {
                           images = "undefined";
                       }
                       try {
-                          href_link = prod_name[i].href;
+                          href_link = description[i].href;
                       } catch (error) {
                           href_link = "undefined";
                       }
@@ -250,11 +252,11 @@ class Helper {
                           description : desc,
                           original_price : op, 
                           sale_price : sp,
-                          assurance : asr,
+                          // assurance : asr,
                           images : images,
                           prod_link : href_link // new added
                       }
-                      console.log(obj)
+                      console.log("object:",obj)
                           // console.log("meta array length: ", meta_array.length);
                       meta_array.push(obj)
                       // obj = {}
@@ -266,8 +268,8 @@ class Helper {
               }
               console.log("meta_array: ",meta_array);
               return meta_array;
-          },config)
-          console.log("metadata",metadata)
+          },page,config)
+          // console.log("metadata",metadata)
           return metadata;
       } catch (e) {
           console.log(e);
