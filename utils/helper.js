@@ -314,7 +314,7 @@ class Helper {
                   
                  console.log(error);   
                 }
-                  asin = productdetails.split('ASIN')[1].split('\n')[0].replace(':','').replace('\t','')
+                  asin = productdetails.split('Manufacturer')[1].split('\n')[0].replace('\t','').replace(':','')
                   manufactuerer = productdetails.split('Manufacturer')[1].split('\n')[0].replace('\t','')
                   sellor = [document.getElementById(config.SCRAPE.amazon.bylineInfo).href,
                   document.getElementById(config.SCRAPE.amazon.bylineInfo).innerHTML]
