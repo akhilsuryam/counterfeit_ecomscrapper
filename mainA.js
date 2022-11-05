@@ -1,2 +1,3 @@
-const searchkeyword = require('./SearchKeyword');
-searchkeyword.getKeydataamazon('cipla');
+const SearchKeyword = require('./SearchKeyword');
+let keyword = "chocolate"
+SearchKeyword.getKeydataamazon(keyword);

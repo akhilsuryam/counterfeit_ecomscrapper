@@ -1,2 +1,2 @@
-const reviewscraper = require('./ReviewScrapper')
-reviewscraper.getreviewdataA();
+const ReviewScraper = require('./ReviewScrapper')
+ReviewScraper.getreviewdataA();

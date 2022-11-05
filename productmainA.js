@@ -1,2 +1,2 @@
-const productscraper = require('./ProductMeta')
-productscraper.getproductdataA();
+const ProductMeta = require('./ProductMeta')
+ProductMeta.getproductdataA();
