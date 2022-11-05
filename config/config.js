@@ -72,7 +72,7 @@ const SCRAPE = {
             img : '_396cs4' // _396cs4 _3exPp9
         },
         {
-            parentclass : 'X3BRps',  // product _1xHGtK
+            parentclass : '_1xHGtK',  // product _1xHGtK
             prod_name: '_2WkVRV',
             description: 'IRpwTa',
             mrp : '_30jeq3',

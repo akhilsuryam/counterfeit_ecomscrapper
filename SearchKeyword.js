@@ -90,11 +90,12 @@ class SearchKeyword{
           console.log("Scrapping data..")
           let flag = true;
           let page_count = 0;
+          let metadata;
           let data_array=[];
           while (flag) {
               page_count++;
               console.log("PAGE NUMBER:", page_count);
-              let metadata = await Helper.getmetaDataF(page, config);
+              metadata = await Helper.getmetaDataF(page, config);
               console.log("DATA OF PAGE: "+ page_count +" "+ metadata);
               data_array.push(metadata);
               console.log("==========================");
@@ -118,7 +119,7 @@ class SearchKeyword{
   
               }          
           }
-          console.log("final :" + data_array)  //added
+          console.log("final array lenght:" + data_array.length)  //added
       }
       
 

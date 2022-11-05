@@ -233,10 +233,10 @@ class Helper {
                 
                 console.log("details", config.SCRAPE.flipkart.detail[0].parentclass);
                 detail = document.getElementsByClassName(config.SCRAPE.flipkart.detail[0].parentclass) // specification
-                if (detail.length != 0) {
+                if (detail.length != 0) { // SPECIFICATION
                     index = 0; 
                     
-                } else {
+                } else {        // PRODUCT DET
                     index = 1;
                 }
                 try{
@@ -281,7 +281,7 @@ class Helper {
                 console.log(sale_price);
                 console.log(assured);
 
-                for (let i =0; i < img.length; i++){
+                for (let i =0; i < detail.length; i++){
                     try {
                         //obj 1 till 40
                         try {
@@ -289,8 +289,11 @@ class Helper {
                         } catch (error) {
                             prod = "undefined";
                         }
-                        // console.log("prod name:", prod_name);
-                        desc = description[i].textContent;
+                        try {
+                            desc = description[i].textContent;
+                        } catch (error) {
+                            desc = "undefined";
+                        }                        
                         try {
                             op = mrp[i].textContent;
                         } catch (error) {
@@ -308,10 +311,19 @@ class Helper {
                         } catch (error) {
                             asr = false;
                         }
-                        
+                        try {
+                            images = img[i].src;
+                        } catch (error) {
+                            images = "undefined";
+                        }
+                        try {
+                            href_link = prod_name[i].href;
+                        } catch (error) {
+                            href_link = "undefined";
+                        }
                         // let asr = assured[i].src
-                        images = img[i].src;
-                        href_link = desc[i].href;
+                        
+                        
                         // console.log("href :", href_link);
                         obj = {
                             prod_name : prod,
