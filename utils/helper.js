@@ -11,8 +11,6 @@ class Helper {
         let resolution = res[randomresindex]
         return resolution
     }
-    
-    
     static openurl = async(page,url) => {
         try {
             
@@ -25,16 +23,41 @@ class Helper {
         }
         return page
     }
-
-
-
     static getuseragent = () => {
         let maxlengthua = userAgents.length
         let randomuserindex = this.randomIntFromInterval(0,maxlengthua);          
         let UA = userAgents[randomuserindex];
         return UA
     }
+    static getProfiledBrowser = async (executabePath) => {
+       
+      // let bres = res[randomresindex];
+      let options = {
+          headless: bConfig.headless,
+          timeout: 15000,
+          ignoreHTTPSErrors: true,
+          executablePath: executabePath,
+          args: [
+              "--no-sandbox",
+              "--start-maximized",
+              "--disable-infobars",
+              "--disable-popup-blocking",
+              "--disable-dev-shm-usage",
+              "--disable-notifications",
+              "--remote-debugging-port=9222",
+              "--disable-web-security",
+              // `--user-data-dir=${userDataDir}`
+          ],
+          ignoreDefaultArgs: ["--enable-automation"],
+          //defaultViewport: null,
+          // userAgent: UA
 
+
+      }
+      const browser = await puppeteer.launch(options);
+
+      return browser;
+    } 
     static  createpage = async () =>{
         let LoopCondition = true;
         let executablePath =bConfig.executablePath;
@@ -839,7 +862,6 @@ class Helper {
           console.log(error)
       }
     }
-
     static async getReviewGenA(page, config){
         let reviews;
         let nextpage;
@@ -1105,47 +1127,10 @@ class Helper {
       
   }
 
-    
-      
-
-
-    static randomIntFromInterval(min, max) { // min and max included 
+  static randomIntFromInterval(min, max) { // min and max included 
         return Math.floor(Math.random() * (max - min + 1) + min)
-      }
-
-
-
-
-
-    static getProfiledBrowser = async (executabePath) => {
-       
-        // let bres = res[randomresindex];
-        let options = {
-            headless: bConfig.headless,
-            timeout: 15000,
-            ignoreHTTPSErrors: true,
-            executablePath: executabePath,
-            args: [
-                "--no-sandbox",
-                "--start-maximized",
-                "--disable-infobars",
-                "--disable-popup-blocking",
-                "--disable-dev-shm-usage",
-                "--disable-notifications",
-                "--remote-debugging-port=9222",
-                "--disable-web-security",
-                // `--user-data-dir=${userDataDir}`
-            ],
-            ignoreDefaultArgs: ["--enable-automation"],
-            //defaultViewport: null,
-            // userAgent: UA
-
-
-        }
-        const browser = await puppeteer.launch(options);
-
-        return browser;
-    }
+  }
+  
 
 }
 
