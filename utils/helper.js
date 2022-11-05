@@ -55,9 +55,225 @@ class Helper {
         return [page,browser];
       
       
+    }
+    static async getmetaDataA(page,config){
+        try {
+            let seltor = config.SCRAPE.amazon.prod_name;
+            let productinfo =  await page.evaluate((config,seltor) =>{
+                let detarray = []
+                let parent = document.getElementsByClassName(config.SCRAPE.amazon.parentclass);
+                console.log('parent.length:',parent.length);
+                let productnamejson
+                for (let scrapeindex = 0; scrapeindex < parent.length; scrapeindex++) {
+                  try {
+                    productnamejson =  parent[scrapeindex].getElementsByClassName(seltor)[0].textContent; 
+                    console.log('p1',productnamejson) 
+                  } catch (error) {console.log(error);}
+                  try{
+                    pricejson =  parent[scrapeindex].getElementsByClassName(config.SCRAPE.amazon.mrp)[0].textContent;  
+                    console.log('price',pricejson);
+                  }catch(e){}
+                  try{
+                    ogprice = parent[scrapeindex].getElementsByClassName(config.SCRAPE.amazon.sale_price)[0].innerText;
+                  }catch(e){
+                    console.log('eee',e)
+                  }
+                  
+                  try{
+                    imagelink = parent[scrapeindex].getElementsByClassName(config.SCRAPE.amazon.Img)[0].srcset;
+                    imagelinkarray = imagelink.split(' ')
+                    imagelink = imagelinkarray[imagelinkarray.length-2]
+                  }catch(e){console.log("error in images",e);}
+      
+                  let reviewscore
+                  try {
+                    reviewscore = parent[scrapeindex].getElementsByClassName(config.SCRAPE.amazon.rate_score)[0].innerText;
+                  } catch (error) {
+                      console.log('rs',reviewscore)
+                  }
+                  let rnos;
+                  try{
+                    rnos = parent[scrapeindex].getElementsByClassName(config.SCRAPE.amazon.revnos)[0].innerText
+                  }catch(e){
+                    console.log("rnos",rnos);
+                  }
+                  let prod_link
+                  try {
+                    prod_link = parent[scrapeindex].getElementsByClassName(config.SCRAPE.amazon.prod_link)[0].href
+                  } catch (error) {
+                    
+                  }
+      
+                  console.log('IMG',imagelink)
+                  console.log('r',reviewscore)
+                  
+                  detjson = {
+                    price:pricejson,
+                    ogprice:ogprice,
+                    imagelink:imagelink,
+                    reviewscore:reviewscore,
+                    reviewnos:rnos,
+                    productname:productnamejson,
+                    prod_link:prod_link,
+                  }
+                  detarray.push(detjson)
+                }
+                console.log("detarray",detarray)
+                return detarray
+              },config,seltor)
+              console.log('PI',productinfo)
+              return productinfo;
+        } catch (error) {
+            console.log("error",error)
+            
+        }
+
+    }
+    static async getmetaDataF(page, config){
+      try {
+          // let meta_array=[];
+          let metadata = await page.evaluate(async (config) => {
+              let meta_array=[];
+              let detail;
+              let index;
+              let prod_name;
+              let description;
+              let mrp;
+              let sale_price;
+              let assured;
+              let img;
+              let prod;
+              let desc;
+              let op;
+              let sp;
+              let asr;
+              let images;
+              let href_link;
+              let obj;
+              
+              console.log("details", config.SCRAPE.flipkart.detail[0].parentclass);
+              detail = document.getElementsByClassName(config.SCRAPE.flipkart.detail[0].parentclass) // specification
+              if (detail.length != 0) { // SPECIFICATION
+                  index = 0; 
+                  
+              } else {        // PRODUCT DET
+                  index = 1;
+              }
+              try{
+                  prod_name = document.getElementsByClassName(config.SCRAPE.flipkart.detail[index].prod_name);
+              }catch(e){
+                  console.log(error)
+              }
+              try{
+                  description = document.getElementsByClassName(config.SCRAPE.flipkart.detail[index].description); 
+              }catch(e){
+                  console.log(error)
+              }
+              try{
+                  mrp = document.getElementsByClassName(config.SCRAPE.flipkart.detail[index].mrp);
+              }catch(e){
+                  console.log(error)
+              }
+              // mrp = document.getElementsByClassName(config.SCRAPE.flipkart.mrp);
+              // console.log("sel 1:", config.SCRAPE.flipkart.mrp);
+              try {
+                  sale_price = document.getElementsByClassName(config.SCRAPE.flipkart.detail[index].sale_price);                    
+              } catch (error) {
+                  console.log(error)
+              }
+              
+              try {
+                  assured = document.querySelectorAll(config.SCRAPE.flipkart.detail[index].assured);        
+              } catch (error) {
+                  console.log(error)
+              }
+              
+              // assured = document.getElementsByClassName(config.SCRAPE.flipkart.assured);
+              try{
+                  img = document.getElementsByClassName(config.SCRAPE.flipkart.detail[index].img);
+              }catch(error){
+                  console.log(error)
+              }
+              
+              console.log(prod_name);
+              console.log(description);
+              console.log(mrp);
+              console.log(sale_price);
+              console.log(assured);
+
+              for (let i =0; i < detail.length; i++){
+                  try {
+                      //obj 1 till 40
+                      try {
+                          prod = prod_name[i].textContent;
+                      } catch (error) {
+                          prod = "undefined";
+                      }
+                      try {
+                          desc = description[i].textContent;
+                      } catch (error) {
+                          desc = "undefined";
+                      }                        
+                      try {
+                          op = mrp[i].textContent;
+                      } catch (error) {
+                          op = "undefined";
+                      }
+                      try {
+                          sp = sale_price[i].textContent;
+                      } catch (error) {
+                          sp = "undefined";
+                      }
+                      
+                      try {
+                          asr = assured[i].currentSrc;
+                          asr = true;
+                      } catch (error) {
+                          asr = false;
+                      }
+                      try {
+                          images = img[i].src;
+                      } catch (error) {
+                          images = "undefined";
+                      }
+                      try {
+                          href_link = prod_name[i].href;
+                      } catch (error) {
+                          href_link = "undefined";
+                      }
+                      // let asr = assured[i].src
+                      
+                      
+                      // console.log("href :", href_link);
+                      obj = {
+                          prod_name : prod,
+                          description : desc,
+                          original_price : op, 
+                          sale_price : sp,
+                          assurance : asr,
+                          images : images,
+                          prod_link : href_link // new added
+                      }
+                      console.log(obj)
+                          // console.log("meta array length: ", meta_array.length);
+                      meta_array.push(obj)
+                      // obj = {}
+
+                      
+                  } catch (error) {
+                      console.log(error)
+                  }
+              }
+              console.log("meta_array: ",meta_array);
+              return meta_array;
+          },config)
+          console.log("metadata",metadata)
+          return metadata;
+      } catch (e) {
+          console.log(e);
       }
 
-
+    }//flipkart//dv/
     static async getProductmetaA(page,config){
         try {
             let names =  await page.evaluate(async (config) =>{
@@ -209,151 +425,418 @@ class Helper {
             
         }
     }
-    static async getmetaDataF(page, config){
-        try {
-            // let meta_array=[];
-            let metadata = await page.evaluate(async (config) => {
-                let meta_array=[];
-                let detail;
-                let index;
-                let prod_name;
-                let description;
-                let mrp;
-                let sale_price;
-                let assured;
-                let img;
-                let prod;
-                let desc;
-                let op;
-                let sp;
-                let asr;
-                let images;
-                let href_link;
-                let obj;
-                
-                console.log("details", config.SCRAPE.flipkart.detail[0].parentclass);
-                detail = document.getElementsByClassName(config.SCRAPE.flipkart.detail[0].parentclass) // specification
-                if (detail.length != 0) { // SPECIFICATION
-                    index = 0; 
-                    
-                } else {        // PRODUCT DET
-                    index = 1;
-                }
-                try{
-                    prod_name = document.getElementsByClassName(config.SCRAPE.flipkart.detail[index].prod_name);
-                }catch(e){
-                    console.log(error)
-                }
-                try{
-                    description = document.getElementsByClassName(config.SCRAPE.flipkart.detail[index].description); 
-                }catch(e){
-                    console.log(error)
-                }
-                try{
-                    mrp = document.getElementsByClassName(config.SCRAPE.flipkart.detail[index].mrp);
-                }catch(e){
-                    console.log(error)
-                }
-                // mrp = document.getElementsByClassName(config.SCRAPE.flipkart.mrp);
-                // console.log("sel 1:", config.SCRAPE.flipkart.mrp);
-                try {
-                    sale_price = document.getElementsByClassName(config.SCRAPE.flipkart.detail[index].sale_price);                    
-                } catch (error) {
-                    console.log(error)
-                }
-                
-                try {
-                    assured = document.querySelectorAll(config.SCRAPE.flipkart.detail[index].assured);        
-                } catch (error) {
-                    console.log(error)
-                }
-                
-                // assured = document.getElementsByClassName(config.SCRAPE.flipkart.assured);
-                try{
-                    img = document.getElementsByClassName(config.SCRAPE.flipkart.detail[index].img);
-                }catch(error){
-                    console.log(error)
-                }
-                
-                console.log(prod_name);
-                console.log(description);
-                console.log(mrp);
-                console.log(sale_price);
-                console.log(assured);
+    static async getProductmetaF(page, config){
+      try {
+          let data = await page.evaluate(async (page,config) => {
+              let product_details;
+              // let descript;
+              // let base_price;
+              // let discount_price;
+              let img_link;
+              let rate_score;
+              let rate_review;
+              let seller;
+              let seller_rating;
+              let review_link;
+              let specification;
+              let manufacturer_arr = [];
+              let generic_details;
+              let manufact_details;
+              let detail_info;
+              // let assured;
+              try{
+                  img_link = document.getElementsByClassName(config.SCRAPE.flipkart.img_link); //array of 7
+                  console.log("image :", img_link);
+              }catch(error){}
+              try{
+                  rate_score = document.getElementsByClassName(config.SCRAPE.flipkart.rate_score);
+              }catch(error){
+                  console.log(error);
+              }
+              try{
+                  rate_review = document.getElementsByClassName(config.SCRAPE.flipkart.rate_review);
+              }catch(error){
+                  console.log(error);
+              }
+              try{
+                  seller = document.querySelectorAll(config.SCRAPE.flipkart.seller); 
+              }catch(error){
+                  console.log(error);
+              }
+              try{
+                  seller_rating = document.getElementsByClassName(config.SCRAPE.flipkart.seller_rating);
+              }catch(error){
+                  console.log(error);
+              }
+              try{
+                  review_link = document.querySelectorAll(config.SCRAPE.flipkart.review_link);
+              }catch(error){
+                  console.log("not more than 3 reviews")
+              }
+              try {
+                  specification = document.getElementsByClassName(config.SCRAPE.flipkart.specification);                
+              } catch (error) {
+                  console.log('specification selector not found')
+              }
+              try{
+                  product_details = document.getElementsByClassName(config.SCRAPE.flipkart.product_details);
+              }catch(e){
+                  console.log('prod selector not found');
+              }
+              try{
+                  generic_details = document.getElementsByClassName(config.SCRAPE.flipkart.generic_details);
+              }catch(e){
+                  console.log(error);
+              }
+              try{
+                  manufact_details = document.getElementsByClassName(config.SCRAPE.flipkart.manufact_details);
+              }catch(e){
+                  console.log(error);
+              }
+              try{
+                  detail_info = document.getElementsByClassName(config.SCRAPE.flipkart.detail_info);
+              }catch(e){
+                  console.log(error);
+              }
+              try{
+                  manufact_closebtn = document.getElementsByClassName(config.SCRAPE.flipkart.manufact_closebtn);
+              }catch(e){
+                  console.log(error);
+              }
+              // try{
+              //     other_sellers = document.getElementsByClassName(config.SCRAPE.flipkart.other_sellers);
+              // }catch(e){
+              //     console.log(error);
+              // }        
+              
+              console.log("SELETORS FOUND")
+  
+  
+              // // try {
+              //     assured = document.querySelectorAll(config.SCRAPE.flipkart.assured);        
+              // } catch (error) {assured = false}
+                  
+              let image_arr = [];
+              for (let i=0; i < img_link.length; i++){
+                  image_arr.push(img_link[i].src);
+              }
+              console.log("image :", image_arr);
+              let rating = rate_score[0].textContent;
+              console.log("rate_score :", rating);
+              let rate_rev = rate_review[0].textContent;
+              console.log("rate_review :", rate_rev);
+              let sel_nm = seller[0].textContent;
+              console.log("selnm :", sel_nm);
+              let sel_rate = seller_rating[0].textContent;
+              console.log("sel rate: ",sel_rate);
+              let rlink = review_link[0].href;
+              console.log("rev link: ", rlink);
+              
+              /*specifiaction*/
+              specific_det = [];
+              try {
+                  // specific_det = [];
+                  for(let i= 0 ; i< specification.length ;i++){
+                      let detail = specification[i].innerText;
+                      specific_det.push(detail);
+                  }
+                  console.log(specific_det);
+                  // click read more
+                  read_more = document.getElementsByClassName(config.SCRAPE.flipkart.read_more);
+                  read_more[0].click();
+                  // click manufact,product,import info
+                  specif_manucfacturer = document.getElementsByClassName(config.SCRAPE.flipkart.specif_manucfacturer);
+                  specif_manucfacturer[0].click();
+              } catch (error) {
+                  specific_det = 'undefined';
+              }
+              console.log("specific_det", specific_det);
+              
+              /*product details*/
+              let prod_det;
+              try {
+                  prod_det = product_details[0].innerText;
+                  // click manufact,product,import info
+                  product_manufacturer = document.querySelectorAll(config.SCRAPE.flipkart.product_manufacturer);
+                  product_manufacturer[0].click();
+                  
+              } catch (error) {
+                  prod_det = 'undefined';
+              }
+              console.log("prod_details", prod_det );
+              
+              // let specif_manucfacturer;
+              // try{
+              //     specif_manucfacturer = document.getElementsByClassName(config.SCRAPE.flipkart.specif_manucfacturer);
+              //     console.log("click selector:", specif_manucfacturer);
+              //     specif_manucfacturer[0].click();
+              // }catch(e){
+              //     console.log(e); }
+              
+              let generic_det = generic_details[0].innerText;  // fetch generic det
+              // let manufact_det = [];
+              manufacturer_arr.push(generic_det);
+              for(let i=0; i < manufact_details.length; i++){  // fetch manufact,product,import info
+                  let category = manufact_details[i].innerText;
+                  let cat_info = detail_info[0].innerText;
+                  let manufact_obj = {
+                      // category : cat_info
+                  }
+                  manufact_obj[category] = cat_info
+                  console.log(manufact_obj)
+                  manufacturer_arr.push(manufact_obj);
+                  let clk = 1 // variable for click
+                  try {
+                      manufact_details[clk].click(); 
+                      clk++;
+                  } catch (error) {
+                      console.log("no more elements")
+                  }
+              }
+              // manufacturer_arr.push(generic_det, manufact_det);
+              // close manufact,product,import 
+              try {
+                  manufact_closebtn[0].click();
+              } catch (error) {
+              }
+              // click other sellers
+              // try {
+              //     other_sellers[0].click();
+              //     console.log('Before wait')
+              //     // await page.waitForSelector(seller_name)
+              //     console.log('After click')
+              
+              // } catch (error) {
+              //     console.log(error);
+              // }
+              
+              console.log("entering obj..")
+              let obj= {
+                  // description : des,
+                  // baseprice : base_p,
+                  // salesprice : des_p,
+                  images : image_arr,
+                  ratings : rating,
+                  reviews : rate_rev,
+                  seller_name: sel_nm,
+                  seller_rating: sel_rate,
+                  review_url: rlink,
+                  specification: specific_det,
+                  product_details : prod_det,
+                  Manufacturing_info : manufacturer_arr,
+  
+              }
+              console.log("out of obj..")
+              console.log("object: ",obj);
+              // let manufact;
+              // try{
+              //     manufact = document.querySelectorAll(config.SCRAPE.flipkart.manufacturer);
+              //     manufact[0].click();
+              // }catch(e){}
+              
+              return obj;  
+  
+  
+          },page,config)
+          // console.log("DATA :", data) 
+           
+          // let sel_nm = seller_name[0].innerText;
+          // console.log("seller_name :", sel_nm);
 
-                for (let i =0; i < detail.length; i++){
-                    try {
-                        //obj 1 till 40
-                        try {
-                            prod = prod_name[i].textContent;
-                        } catch (error) {
-                            prod = "undefined";
-                        }
-                        try {
-                            desc = description[i].textContent;
-                        } catch (error) {
-                            desc = "undefined";
-                        }                        
-                        try {
-                            op = mrp[i].textContent;
-                        } catch (error) {
-                            op = "undefined";
-                        }
-                        try {
-                            sp = sale_price[i].textContent;
-                        } catch (error) {
-                            sp = "undefined";
-                        }
-                        
-                        try {
-                            asr = assured[i].currentSrc;
-                            asr = true;
-                        } catch (error) {
-                            asr = false;
-                        }
-                        try {
-                            images = img[i].src;
-                        } catch (error) {
-                            images = "undefined";
-                        }
-                        try {
-                            href_link = prod_name[i].href;
-                        } catch (error) {
-                            href_link = "undefined";
-                        }
-                        // let asr = assured[i].src
-                        
-                        
-                        // console.log("href :", href_link);
-                        obj = {
-                            prod_name : prod,
-                            description : desc,
-                            original_price : op, 
-                            sale_price : sp,
-                            assurance : asr,
-                            images : images,
-                            prod_link : href_link // new added
-                        }
-                        console.log(obj)
-                            // console.log("meta array length: ", meta_array.length);
-                        meta_array.push(obj)
-                        // obj = {}
 
-                        
-                    } catch (error) {
-                        console.log(error)
-                    }
-                }
-                console.log("meta_array: ",meta_array);
-                return meta_array;
-            },config)
-            console.log("metadata",metadata)
-            return metadata;
-        } catch (e) {
-            console.log(e);
-        }
+          return data;// return data;
+          
+      } catch (error) {
+          console.log(error);
+      }
+      // try {
+      //     //page = await page.click(config.SCRAPE.flipkart.nextbtn);
+      //     //await page.waitForNavigation();                
+      //     await page.click(config.SCRAPE.flipkart.other_sellers);
+      //     console.log('Before wait')
+      //     await page.waitForTimeout(8000)
+      //     console.log('After wait')                
+      // } catch (error) {
+      //     console.log(error)
+      // }
 
-    }//flipkart//dv/
+    }
+    static async getSellerF(page,config){
+      try {
+          console.log("other seller selector",config.SCRAPE.flipkart.other_sellers);                
+          await page.click(config.SCRAPE.flipkart.other_sellers);
+          console.log('Before wait 8s')
+          await page.waitForTimeout(8000)
+          console.log('After wait')                
+      } catch (error) {
+          console.log(error)
+      }
+      try {
+          let data = await page.evaluate(async (page,config) =>{
+              console.log("page:",page)
+              let seller_name;
+              let seller_rate;
+              let original_prc;
+              let discount_price;
+              let sellname;
+              let sellrate;
+              let org_prc;
+              let aboutsell_btn;
+              let seller_since;
+              let dis_prc;
+              let FSSAI_License;
+              let F_License;
+              let service_qlt;
+              let prod_qlt;
+              let sell_date;
+              let seller_data = [];
+              let obj;
+              try{
+                  seller_name = document.getElementsByClassName(config.SCRAPE.flipkart.seller_name);
+              }catch(e){
+                  console.log(error);
+              }
+              try{
+                  seller_rate = document.getElementsByClassName(config.SCRAPE.flipkart.seller_rate);
+              }catch(e){
+                  console.log(error);
+              }
+              try{
+                  original_prc = document.getElementsByClassName(config.SCRAPE.flipkart.original_prc);
+              }catch(e){
+                  console.log(error);
+              }
+              try{
+                  discount_price = document.getElementsByClassName(config.SCRAPE.flipkart.discount_price);
+              }catch(e){
+                  console.log(error);
+              }
+              console.log("SELETORS FOUND");
+              // try{
+              //     seller_qaulity = document.getElementsByClassName(config.SCRAPE.flipkart.seller_qaulity);
+              // }catch(e){
+              //     console.log(error);
+              // }
+              function delay(time){
+                  return new Promise(function(resolve){
+                      setTimeout(resolve, time)
+                  });
+              }
+              console.log("starting loop ")
+              console.log(seller_name);
+              console.log(seller_name.length);
+              
+              for(let i=0; i < seller_name.length ; i++){
+                  sellname = seller_name[i].textContent;
+                  console.log("sellname:", sellname);
+                  // let sellrate = seller_rate[i].textContent;
+                  // console.log("sellrate :", sellrate);
+                  // let org_prc = original_prc[i].textContent;
+                  try {
+                      sellrate = seller_rate[i].textContent;
+                  } catch (error) {
+                      sellrate = "undefined";
+                  }
+                  try {
+                      org_prc = original_prc[i].textContent;
+                  } catch (error) {
+                      org_prc = "undefined";
+                  }
+                  dis_prc = discount_price[i].textContent;
+                  console.log("discount price :", dis_prc);
+                  // click for about seller
+                  try {
+                      aboutsell_btn = document.querySelectorAll(config.SCRAPE.flipkart.aboutsell_btn);
+                      console.log("before click");
+                      console.log(aboutsell_btn[i]);
+                      await aboutsell_btn[i].click();
+                  } catch (error) {
+                      console.log(error)
+                  }
+                  // get info about seller 
+                  function info() {
+                      return new Promise((resolve, reject) => {
+                      setTimeout(async () => {
+                          console.log("after click in 10s");
+                          try{
+                              seller_since = document.getElementsByClassName(config.SCRAPE.flipkart.seller_since);
+                          }catch(e){
+                              console.log(e);
+                          }
+                          try{
+                              FSSAI_License = document.querySelectorAll(config.SCRAPE.flipkart.FSSAI_License);
+                              F_License = FSSAI_License[0].innerText;
+                              console.log("F_License :", F_License);
+
+                          }catch(e){
+                              F_License = ("not defined")
+                              console.log(e);
+                          }
+                          try{
+                              seller_qaulity = document.getElementsByClassName(config.SCRAPE.flipkart.seller_qaulity);
+                          }catch(e){
+                              console.log(e);
+                          }
+                          console.log("selectors found")
+                          sell_date = seller_since[0].textContent;
+                          console.log("sell_date :", sell_date);
+                          prod_qlt = seller_qaulity[0].innerText;
+                          console.log("prod_qlt :", prod_qlt);
+                          service_qlt = seller_qaulity[1].innerText;
+                          console.log("service_qlt :", service_qlt);
+                          // let F_License = FSSAI_License[0].innerText;
+                          // console.log("F_License :", F_License);
+                          try {
+                              aboutsell_close = document.getElementsByClassName(config.SCRAPE.flipkart.aboutsell_close);
+                              aboutsell_close[0].click();
+                          } catch (error) {
+                              console.log(error)
+                          }
+                          // calling DELAY
+                          console.log("calling after close ");
+                          await delay(4000);
+                          console.log("calling after close ");
+                          // 
+                          console.log("entering of obj..")
+                          obj= {
+                              seller_name: sellname,
+                              seller_rating: sellrate,
+                              baseprice : org_prc,
+                              salesprice : dis_prc,
+                              seller_since: sell_date,
+                              product_qlt: prod_qlt,
+                              service_qlt: service_qlt,
+                              FSSAI_Lic : F_License,
+                              
+                          }
+                          console.log("out of obj..")
+                          console.log("object: ",obj);
+
+                          // console.log("obj ready...")
+                          // return obj;
+
+                          resolve(obj);
+                          // obj{}
+                      },1000);
+                      });
+                  }
+                  //  async function() {
+                  const result = await info();
+                  console.log(i+" " + result); // --> 'done!';
+                  seller_data.push(result)
+
+
+              }
+              
+              console.log("returned data: ", seller_data)
+              return seller_data;  
+          
+          },page,config);
+          return data;
+      } catch (error) {
+          console.log(error)
+      }
+    }
 
     static async getReviewGenA(page, config){
         let reviews;
@@ -428,79 +911,7 @@ class Helper {
     }//flipkart//dv/ 
 
 
-    static async getmetaDataA(page,config){
-        try {
-            let seltor = config.SCRAPE.amazon.prod_name;
-            let productinfo =  await page.evaluate((config,seltor) =>{
-                let detarray = []
-                let parent = document.getElementsByClassName(config.SCRAPE.amazon.parentclass);
-                console.log('parent.length:',parent.length);
-                let productnamejson
-                for (let scrapeindex = 0; scrapeindex < parent.length; scrapeindex++) {
-                  try {
-                    productnamejson =  parent[scrapeindex].getElementsByClassName(seltor)[0].textContent; 
-                    console.log('p1',productnamejson) 
-                  } catch (error) {console.log(error);}
-                  try{
-                    pricejson =  parent[scrapeindex].getElementsByClassName(config.SCRAPE.amazon.mrp)[0].textContent;  
-                    console.log('price',pricejson);
-                  }catch(e){}
-                  try{
-                    ogprice = parent[scrapeindex].getElementsByClassName(config.SCRAPE.amazon.sale_price)[0].innerText;
-                  }catch(e){
-                    console.log('eee',e)
-                  }
-                  
-                  try{
-                    imagelink = parent[scrapeindex].getElementsByClassName(config.SCRAPE.amazon.Img)[0].srcset;
-                    imagelinkarray = imagelink.split(' ')
-                    imagelink = imagelinkarray[imagelinkarray.length-2]
-                  }catch(e){console.log("error in images",e);}
-      
-                  let reviewscore
-                  try {
-                    reviewscore = parent[scrapeindex].getElementsByClassName(config.SCRAPE.amazon.rate_score)[0].innerText;
-                  } catch (error) {
-                      console.log('rs',reviewscore)
-                  }
-                  let rnos;
-                  try{
-                    rnos = parent[scrapeindex].getElementsByClassName(config.SCRAPE.amazon.revnos)[0].innerText
-                  }catch(e){
-                    console.log("rnos",rnos);
-                  }
-                  let prod_link
-                  try {
-                    prod_link = parent[scrapeindex].getElementsByClassName(config.SCRAPE.amazon.prod_link)[0].href
-                  } catch (error) {
-                    
-                  }
-      
-                  console.log('IMG',imagelink)
-                  console.log('r',reviewscore)
-                  
-                  detjson = {
-                    price:pricejson,
-                    ogprice:ogprice,
-                    imagelink:imagelink,
-                    reviewscore:reviewscore,
-                    reviewnos:rnos,
-                    productname:productnamejson,
-                    prod_link:prod_link,
-                  }
-                  detarray.push(detjson)
-                }
-                console.log("detarray",detarray)
-                return detarray
-              },config,seltor)
-              console.log('PI',productinfo)
-              return productinfo;
-        } catch (error) {
-            console.log("error",error)
-            
-        }
-
-    }
+    
       
 
 
