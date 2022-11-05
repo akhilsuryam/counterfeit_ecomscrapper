@@ -121,7 +121,7 @@ const SCRAPE = {
 
 
 
-    }
+    } // config done
 
 }
 module.exports = { SCRAPE }
