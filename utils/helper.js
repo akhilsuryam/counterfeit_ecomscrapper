@@ -19,7 +19,7 @@ class Helper {
             await page.goto(url,{
                 waitUntil: 'networkidle2',
             });
-            await page.waitForNavigation()
+            // await page.waitForNavigation()
         } catch (error) {
             console.log(error.message)
         }
