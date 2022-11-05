@@ -19,11 +19,9 @@ class Helper {
             await page.goto(url,{
                 waitUntil: 'networkidle2',
             });
+            await page.waitForNavigation()
         } catch (error) {
             console.log(error.message)
-
-        
-            
         }
         return page
     }
@@ -233,8 +231,8 @@ class Helper {
                 let href_link;
                 let obj;
                 
-                console.log("details", config.SCRAPE.flipkart.detail[0].class);
-                detail = document.getElementsByClassName(config.SCRAPE.flipkart.detail[0].class) // specification
+                console.log("details", config.SCRAPE.flipkart.detail[0].parentclass);
+                detail = document.getElementsByClassName(config.SCRAPE.flipkart.detail[0].parentclass) // specification
                 if (detail.length != 0) {
                     index = 0; 
                     
@@ -283,11 +281,14 @@ class Helper {
                 console.log(sale_price);
                 console.log(assured);
 
-                
                 for (let i =0; i < img.length; i++){
                     try {
                         //obj 1 till 40
-                        prod = prod_name[i].textContent;
+                        try {
+                            prod = prod_name[i].textContent;
+                        } catch (error) {
+                            prod = "undefined";
+                        }
                         // console.log("prod name:", prod_name);
                         desc = description[i].textContent;
                         try {
@@ -310,7 +311,7 @@ class Helper {
                         
                         // let asr = assured[i].src
                         images = img[i].src;
-                        href_link = description[i].href;
+                        href_link = desc[i].href;
                         // console.log("href :", href_link);
                         obj = {
                             prod_name : prod,
@@ -321,7 +322,7 @@ class Helper {
                             images : images,
                             prod_link : href_link // new added
                         }
-                        // console.log(obj)
+                        console.log(obj)
                             // console.log("meta array length: ", meta_array.length);
                         meta_array.push(obj)
                         // obj = {}
@@ -331,10 +332,10 @@ class Helper {
                         console.log(error)
                     }
                 }
-                // console.log("meta_array: ",meta_array);
+                console.log("meta_array: ",meta_array);
                 return meta_array;
             },config)
-            console.log(metadata)
+            console.log("metadata",metadata)
             return metadata;
         } catch (e) {
             console.log(e);
