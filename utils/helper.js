@@ -19,7 +19,7 @@ class Helper {
             await page.goto(url,{
                 waitUntil: 'networkidle2',
             });
-            await page.waitForNavigation()
+            // await page.waitForNavigation()
         } catch (error) {
             console.log(error.message)
         }
@@ -457,6 +457,12 @@ class Helper {
                   }catch(e){
                     console.log("rnos",rnos);
                   }
+                  let prod_link
+                  try {
+                    prod_link = parent[scrapeindex].getElementsByClassName(config.SCRAPE.amazon.prod_link)[0].href
+                  } catch (error) {
+                    
+                  }
       
                   console.log('IMG',imagelink)
                   console.log('r',reviewscore)
@@ -468,7 +474,7 @@ class Helper {
                     reviewscore:reviewscore,
                     reviewnos:rnos,
                     productname:productnamejson,
-                    prod_link:"product link",
+                    prod_link:prod_link,
                   }
                   detarray.push(detjson)
                 }

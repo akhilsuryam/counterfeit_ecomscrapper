@@ -13,6 +13,7 @@ const SCRAPE = {
         Img:'s-image',
         nextbtn:".s-pagination-next",
         rate_score:'a-icon-alt',
+        prod_link:'a-link-normal',
         revnos:'a-size-base',
         nxtbtn:'.s-pagination-separator',
         producttitle:'productTitle',
