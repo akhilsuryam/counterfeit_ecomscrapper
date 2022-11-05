@@ -58,7 +58,7 @@ class Helper {
       }
 
 
-      static async getProductmetaA(page,config){
+    static async getProductmetaA(page,config){
         try {
             let names =  await page.evaluate(async (config) =>{
                 let productdetails;
@@ -208,8 +208,8 @@ class Helper {
             console.log("error in function",error)
             
         }
-      }
-      static async getmetaDataF(page, config){
+    }
+    static async getmetaDataF(page, config){
         try {
             // let meta_array=[];
             let metadata = await page.evaluate(async (config) => {
@@ -428,7 +428,7 @@ class Helper {
     }//flipkart//dv/ 
 
 
-      static async getmetaDataA(page,config){
+    static async getmetaDataA(page,config){
         try {
             let seltor = config.SCRAPE.amazon.prod_name;
             let productinfo =  await page.evaluate((config,seltor) =>{
@@ -500,7 +500,7 @@ class Helper {
             
         }
 
-      }
+    }
       
 
 
