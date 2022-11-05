@@ -303,7 +303,8 @@ class Helper {
         try {
             let names =  await page.evaluate(async (config) =>{
                 let productdetails;
-                let asin
+                let asin;
+                let manufactuerer
                 try {
                     productdetails = document.getElementById(config.SCRAPE.amazon.proddetails).innerText;
                     console.log(productdetails)
@@ -314,6 +315,7 @@ class Helper {
                  console.log(error);   
                 }
                   asin = productdetails.split('ASIN')[1].split('\n')[0].replace(':','').replace('\t','')
+                  manufactuerer = productdetails.split('Manufacturer')[1].split('\n')[0].replace('\t','')
                   sellor = [document.getElementById(config.SCRAPE.amazon.bylineInfo).href,
                   document.getElementById(config.SCRAPE.amazon.bylineInfo).innerHTML]
                   console.log(sellor)
