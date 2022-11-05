@@ -8,7 +8,7 @@ const res = require('./config/Res');
 
 class ReviewScrapper{
 
-static getreviewdata=async ()=>{
+static getreviewdataA=async ()=>{
     let [page,browser] = await Helper.createpage();
     page =await Helper.openurl(page,config.SCRAPE.amazon.review_url)
     console.log("scrape")
