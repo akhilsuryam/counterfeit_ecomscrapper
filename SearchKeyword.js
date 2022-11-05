@@ -40,7 +40,7 @@ class SearchKeyword{
                     console.log('####################################')
                     console.log('Page No: ',itr)
                     console.log('####################################')
-                    let productinfo = await Helper.getmetaData(page,config)
+                    let productinfo = await Helper.getmetaDataA(page,config)
                     console.log('productinfo: ',productinfo);
 
                     itr++;
@@ -94,7 +94,7 @@ class SearchKeyword{
           while (flag) {
               page_count++;
               console.log("PAGE NUMBER:", page_count);
-              let metadata = await Helper.getmetaData(page, config);
+              let metadata = await Helper.getmetaDataF(page, config);
               console.log("DATA OF PAGE: "+ page_count +" "+ metadata);
               data_array.push(metadata);
               console.log("==========================");

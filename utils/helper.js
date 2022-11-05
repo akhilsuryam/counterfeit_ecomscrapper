@@ -211,11 +211,141 @@ class Helper {
             
         }
       }
+      static async getmetaDataF(page, config){
+        try {
+            // let meta_array=[];
+            let metadata = await page.evaluate(async (config) => {
+                let meta_array=[];
+                let detail;
+                let index;
+                let prod_name;
+                let description;
+                let mrp;
+                let sale_price;
+                let assured;
+                let img;
+                let prod;
+                let desc;
+                let op;
+                let sp;
+                let asr;
+                let images;
+                let href_link;
+                let obj;
+                
+                console.log("details", config.SCRAPE.flipkart.detail[0].class);
+                detail = document.getElementsByClassName(config.SCRAPE.flipkart.detail[0].class) // specification
+                if (detail.length != 0) {
+                    index = 0; 
+                    
+                } else {
+                    index = 1;
+                }
+                try{
+                    prod_name = document.getElementsByClassName(config.SCRAPE.flipkart.detail[index].prod_name);
+                }catch(e){
+                    console.log(error)
+                }
+                try{
+                    description = document.getElementsByClassName(config.SCRAPE.flipkart.detail[index].description); 
+                }catch(e){
+                    console.log(error)
+                }
+                try{
+                    mrp = document.getElementsByClassName(config.SCRAPE.flipkart.detail[index].mrp);
+                }catch(e){
+                    console.log(error)
+                }
+                // mrp = document.getElementsByClassName(config.SCRAPE.flipkart.mrp);
+                // console.log("sel 1:", config.SCRAPE.flipkart.mrp);
+                try {
+                    sale_price = document.getElementsByClassName(config.SCRAPE.flipkart.detail[index].sale_price);                    
+                } catch (error) {
+                    console.log(error)
+                }
+                
+                try {
+                    assured = document.querySelectorAll(config.SCRAPE.flipkart.detail[index].assured);        
+                } catch (error) {
+                    console.log(error)
+                }
+                
+                // assured = document.getElementsByClassName(config.SCRAPE.flipkart.assured);
+                try{
+                    img = document.getElementsByClassName(config.SCRAPE.flipkart.detail[index].img);
+                }catch(error){
+                    console.log(error)
+                }
+                
+                console.log(prod_name);
+                console.log(description);
+                console.log(mrp);
+                console.log(sale_price);
+                console.log(assured);
+
+                
+                for (let i =0; i < img.length; i++){
+                    try {
+                        //obj 1 till 40
+                        prod = prod_name[i].textContent;
+                        // console.log("prod name:", prod_name);
+                        desc = description[i].textContent;
+                        try {
+                            op = mrp[i].textContent;
+                        } catch (error) {
+                            op = "undefined";
+                        }
+                        try {
+                            sp = sale_price[i].textContent;
+                        } catch (error) {
+                            sp = "undefined";
+                        }
+                        
+                        try {
+                            asr = assured[i].currentSrc;
+                            asr = true;
+                        } catch (error) {
+                            asr = false;
+                        }
+                        
+                        // let asr = assured[i].src
+                        images = img[i].src;
+                        href_link = description[i].href;
+                        // console.log("href :", href_link);
+                        obj = {
+                            prod_name : prod,
+                            description : desc,
+                            original_price : op, 
+                            sale_price : sp,
+                            assurance : asr,
+                            images : images,
+                            prod_link : href_link // new added
+                        }
+                        // console.log(obj)
+                            // console.log("meta array length: ", meta_array.length);
+                        meta_array.push(obj)
+                        // obj = {}
+
+                        
+                    } catch (error) {
+                        console.log(error)
+                    }
+                }
+                // console.log("meta_array: ",meta_array);
+                return meta_array;
+            },config)
+            console.log(metadata)
+            return metadata;
+        } catch (e) {
+            console.log(e);
+        }
+
+    }//flipkart//dv/
+
+     
 
 
-
-
-      static async getmetaData(page,config){
+      static async getmetaDataA(page,config){
         try {
             let seltor = config.SCRAPE.amazon.prod_name;
             let productinfo =  await page.evaluate((config,seltor) =>{
