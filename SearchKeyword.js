@@ -68,7 +68,7 @@ class SearchKeyword{
         }
     
     static getKeydataflipkart = async (keyword) => {
-          console.log("inside getKeydata function")
+          console.log("inside getKeydataflipkart function")
           let [page,browser] = await Helper.createpage(); 
           page = await Helper.openurl(page, config.SCRAPE.flipkart.Url)  // calling openurl
           console.log('before wait 5s');
@@ -96,7 +96,7 @@ class SearchKeyword{
               page_count++;
               console.log("PAGE NUMBER:", page_count);
               metadata = await Helper.getmetaDataF(page, config);
-              console.log("DATA OF PAGE: "+ page_count +" "+ metadata);
+              console.log("DATA OF PAGE:",page_count,metadata);
               data_array.push(metadata);
               console.log("==========================");
               

@@ -132,9 +132,9 @@ class Helper {
     static async getmetaDataF(page, config){
       try {
           // let meta_array=[];
-          let metadata = await page.evaluate(async (config) => {
+          let metadata = await page.evaluate(async (page,config) => {
               let meta_array=[];
-              let detail;
+              let details;
               let index;
               let prod_name;
               let description;
@@ -152,11 +152,12 @@ class Helper {
               let obj;
               
               console.log("details", config.SCRAPE.flipkart.detail[0].parentclass);
-              detail = document.getElementsByClassName(config.SCRAPE.flipkart.detail[0].parentclass) // specification
-              if (detail.length != 0) { // SPECIFICATION
+              details = document.getElementsByClassName(config.SCRAPE.flipkart.detail[0].parentclass) // specification
+              if (details.length != 0) { // SPECIFICATION
                   index = 0; 
                   
               } else {        // PRODUCT DET
+                  details = document.getElementsByClassName(config.SCRAPE.flipkart.detail[1].parentclass)
                   index = 1;
               }
               try{
@@ -200,8 +201,9 @@ class Helper {
               console.log(mrp);
               console.log(sale_price);
               console.log(assured);
-
-              for (let i =0; i < detail.length; i++){
+              console.log(details.length)
+              for (let i =0; i < details.length; i++){
+                console.log(i)
                   try {
                       //obj 1 till 40
                       try {
@@ -237,7 +239,7 @@ class Helper {
                           images = "undefined";
                       }
                       try {
-                          href_link = prod_name[i].href;
+                          href_link = description[i].href;
                       } catch (error) {
                           href_link = "undefined";
                       }
@@ -250,11 +252,11 @@ class Helper {
                           description : desc,
                           original_price : op, 
                           sale_price : sp,
-                          assurance : asr,
+                          // assurance : asr,
                           images : images,
                           prod_link : href_link // new added
                       }
-                      console.log(obj)
+                      console.log("object:",obj)
                           // console.log("meta array length: ", meta_array.length);
                       meta_array.push(obj)
                       // obj = {}
@@ -266,8 +268,8 @@ class Helper {
               }
               console.log("meta_array: ",meta_array);
               return meta_array;
-          },config)
-          console.log("metadata",metadata)
+          },page,config)
+          // console.log("metadata",metadata)
           return metadata;
       } catch (e) {
           console.log(e);
@@ -911,7 +913,199 @@ class Helper {
         }
 
     }//flipkart//dv/ 
+    static async getReviewGenF(page, config){
+      try {
+          let data = await page.evaluate(async (config) => {
+              let product_star;
+              let total_rev_rate;
+              let rate_distribution;
+              // let review_desc;
+              // let aboutsell_btn;
+              // let seller_since;
+              try{
+                  product_star = document.getElementsByClassName(config.SCRAPE.flipkart.product_star);
+              }catch(e){
+                  console.log(error);
+              }
+              try{
+                  total_rev_rate = document.getElementsByClassName(config.SCRAPE.flipkart.total_rev_rate);
+              }catch(e){
+                  console.log(error);
+              }
+              try{
+                  rate_distribution = document.getElementsByClassName(config.SCRAPE.flipkart.rate_distribution);
+              }catch(e){
+                  console.log(error);
+              }
+              try{
+                  nextRev_btn = document.getElementsByClassName(config.SCRAPE.flipkart.nextRev_btn);
+              }catch(e){
+                  console.log(error);
+              }
+              console.log(nextRev_btn);
+              // try{
+              //     review_rating = document.getElementsByClassName(config.SCRAPE.flipkart.review_rating);
+              // }catch(e){
+              //     console.log(error);
+              // }
+              console.log("SELETORS FOUND");
+              let review_arr = [];
+              let prod_star = product_star[0].innerText;
+              console.log("prod_star:", prod_star);
+              let total_rr = total_rev_rate[0].innerText
+              console.log("total_rr:", total_rr);
+              let rate_dist = rate_distribution[0].innerText.split("\n");  // '66\n28\n18\n5\n7' ['66', '28', '18', '5', '7']
+              console.log("rate_dist:", rate_dist);
+              let general_obj = {
+                  product_star : prod_star,
+                  numberof_revrate: total_rr,
+                  rate_percentage: rate_dist,
+              }
+              review_arr.push(general_obj);  // general review details pushed
+              console.log(review_arr);  
+              // selector_arr.push(review_arr,nextRev_btn);
+              // console.log(selector_arr);
+              return review_arr; //review_arr
 
+          },config)
+          console.log("DATA in function:", data)  // to cmnt return data;
+          return data;
+      } catch (error) {
+          console.log(error);
+      }
+
+  }
+  static async getReviewLoopF(page, config){
+      console.log("inside function");
+      // click filter Negative first
+      // try {
+      //     // await page.click(config.SCRAPE.flipkart.review_filter);
+      //     await page.select(config.SCRAPE.flipkart.review_filter, 'NEGATIVE_FIRST');
+      //     console.log('Before wait of 5s')
+      //     await page.waitForTimeout(5000)
+      //     console.log('After wait')
+                      
+      // } catch (error) {
+      //     console.log(error)
+      // }
+      //DELAY FUNCTION
+      function delay(time){
+          return new Promise(function(resolve){
+              setTimeout(resolve, time)
+          });
+      }
+      // get metadata
+      try {
+          let data = await page.evaluate(async (page,config) => {
+              console.log("page ", page)
+              let review_main;
+              let reviewloop_arr = []; 
+              let review_title;
+              let review_text;
+              let review_star;
+              let buyer_name;
+              let rev_date;
+              let certified_location;
+              let review_obj;
+
+              try{
+                  review_main = document.getElementsByClassName(config.SCRAPE.flipkart.review_main);
+              }catch(e){
+                  console.log(e);
+              }
+              console.log("selector ",review_main,review_main.length) ;
+              // //DELAY FUNCTION
+              // function delay(time){
+              //     return new Promise(function(resolve){
+              //         setTimeout(resolve, time)
+              //     });
+              // }
+              // STARTS LOOP      
+              for(let i = 0; i < review_main.length ; i++){      // loops over review on page a[0].getElementsByClassName("_6K-7Co")[0].innerText;
+                  console.log("i :", i)
+                  try {
+                      review_title = review_main[i].getElementsByClassName(config.SCRAPE.flipkart.review_title)[0].innerText;
+                      console.log("review_title:", review_title);
+                  } catch (error) {
+                      review_title = ("undefined");
+                  }
+                  try {
+                      review_text = review_main[i].getElementsByClassName(config.SCRAPE.flipkart.review_text)[0].innerText;
+                      console.log("review_text:", review_text);
+                  } catch (error) {
+                      review_text = ("undefined"); 
+                  }
+                  try {
+                      review_star = review_main[i+1].getElementsByClassName(config.SCRAPE.flipkart.review_star)[0].innerText;
+                      console.log("review_star:", review_star);
+                  } catch (error) {
+                      review_star = ("undefined"); 
+                  }
+                      // console.log("review_star:", review_star);
+                  try {
+                      buyer_name = review_main[i].getElementsByClassName(config.SCRAPE.flipkart.buyer_date)[0].innerText;
+                      console.log("buyer_name:", buyer_name);                
+                  } catch (error) {
+                      buyer_name = ("undefined"); 
+                  }
+                  try {
+                      rev_date = review_main[i].getElementsByClassName(config.SCRAPE.flipkart.buyer_date)[1].innerText;
+                      console.log("review_date:", rev_date);                
+                  } catch (error) {
+                      rev_date = ("undefined"); 
+                  }
+                  // console.log("buyer_name:", buyer_name);
+                  try {
+                      certified_location = review_main[i].getElementsByClassName(config.SCRAPE.flipkart.certified_location)[0].innerText;
+                      console.log("certified_location:", certified_location);    
+                  } catch (error) {
+                      certified_location = ("undefined"); 
+                  }
+                  review_obj = {
+                      review_Title: review_title,
+                      review_description : review_text,
+                      review_rate : review_star,
+                      profile_name : buyer_name,
+                      review_date : rev_date,
+                      certified_place : certified_location              
+                  }
+                  reviewloop_arr.push(review_obj);
+                      
+              }
+              console.log("one page completed");
+              //click next
+              
+              let nextRev_btn = document.querySelectorAll(config.SCRAPE.flipkart.nextRev_btn);
+              console.log("seletor lenght: ",nextRev_btn.length)
+              nextRev_btn[nextRev_btn.length - 1].click();
+              // // calling DELAY
+              // console.log("calling delay 4s after next");
+              // await delay(4000);
+              // console.log("after delay");
+
+              return reviewloop_arr;
+          },page,config)
+          // calling DELAY
+          console.log("calling delay 4s after next");
+          await page.waitForTimeout(4000);
+          console.log("after delay");
+          // try {
+          //     //page = await page.click(config.SCRAPE.flipkart.nextbtn);
+          //     //await page.waitForNavigation();                
+          //     // await page.click(config.SCRAPE.flipkart.nextbtn);
+          //     console.log('Before wait outside evaluate 10s');
+          //     await page.waitForTimeout(10000);
+          //     console.log('After wait');
+              
+          // } catch (error) {
+          //     console.log(error)
+          // }
+          return [data, page];
+      } catch (error) {
+          console.log(error)
+      }
+      
+  }
 
     
       

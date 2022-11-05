@@ -56,7 +56,7 @@ const SCRAPE = {
         // 'https://www.flipkart.com/wrogn-active-walking-shoes-men/p/itm3b3ad16339608?pid=SHOG2SREFZNMRYYS&lid=LSTSHOG2SREFZNMRYYSHUZDHA&marketplace=FLIPKART&q=shoes&store=osp&srno=s_1_2&otracker=AS_Query_TrendingAutoSuggest_1_0_na_na_na&otracker1=AS_Query_TrendingAutoSuggest_1_0_na_na_na&fm=search-autosuggest&iid=en_loI0ioyI3qHq04EaeBYz8lvK0z%2BSvq%2F5EQApy8znHDzbXpepmNeJ2wxSceEsUnV0gL8an6DnWM6NVSyYRcYlZg%3D%3D&ppt=sp&ppn=sp&qH=b0a8b6f820479900',
         
         review_url: 'https://www.flipkart.com/cadbury-bournville-dark-chocolate-bar-fruit-nut-bars/product-reviews/itmcd163c1170d1f?pid=CHCF9F3WJ4EAEEFB&lid=LSTCHCF9F3WJ4EAEEFBRYKZKR&marketplace=FLIPKART',
-        //  'https://www.flipkart.com/wrogn-active-walking-shoes-men/product-reviews/itm3b3ad16339608?pid=SHOG2SREFZNMRYYS&lid=LSTSHOG2SREFZNMRYYSHUZDHA&marketplace=FLIPKART',
+        // review_url: 'https://www.flipkart.com/wrogn-active-walking-shoes-men/product-reviews/itm3b3ad16339608?pid=SHOG2SREFZNMRYYS&lid=LSTSHOG2SREFZNMRYYSHUZDHA&marketplace=FLIPKART',
         // https://www.flipkart.com/moto-g71-5g-arctic-blue-128-gb/product-reviews/itm725289299f711?pid=MOBG6FWDJKXCTBV4&lid=LSTMOBG6FWDJKXCTBV49C7SLF&marketplace=FLIPKART',
         loginCross: 'body > div._2Sn47c > div > div > button',
         searchBar:  '#container > div > div._1kfTjk > div._1rH5Jn > div._2Xfa2_ > div._1cmsER > form > div > div > input',
@@ -109,12 +109,13 @@ const SCRAPE = {
         aboutsell_close: '_1KAjNd',
         review_filter: '._1EDlbo',
         negetivefirst_btn: '_1EDlbo', // chnage
-        product_star : '_12yO4d',
-        total_rev_rate :'_3zoWhv',
+        product_star : '_12yO4d', // _2d4LTz
+        total_rev_rate :'_3zoWhv', // _2afbiS
         rate_distribution: '_36LmXx',
         review_main: '_2wzgFH', // _2-N8zT
-        review_text: '_2-N8zT',
-        review_desc : "t-ZTKy", // _6K-7Co',
+        review_title : '_2-N8zT',
+        review_text: 't-ZTKy', // t-ZTKy
+        // review_desc : "t-ZTKy", // _6K-7Co',
         review_star: '_3LWZlK', // _3LWZlK start i+1
         buyer_date :'_2sc7ZR', 
         certified_location: '_2mcZGG',
