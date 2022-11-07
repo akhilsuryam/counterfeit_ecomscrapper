@@ -1,3 +1,3 @@
 const workertest = require("./EcomWorker")
-let companies= workertest.getpage()
+let companies=await workertest.getpage()
 console.log(companies)

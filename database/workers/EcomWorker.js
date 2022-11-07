@@ -7,7 +7,7 @@ class EcomWorker {
             const query = `select name from ${company} ;`;
             
             //console.log('query ',query)
-            const result = await pool.query(query);
+            const result =await pool.query(query);
             //console.log('result ',result)
            // console.log(result[0].stateid);
             return result;
