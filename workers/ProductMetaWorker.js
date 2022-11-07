@@ -5,7 +5,7 @@ const pool = require("../database/database")
 let TABLE = "product_meta" 
 class ProductMetaWorker {
     
-    static async getpage() {
+    static async getkeywordA() {
         try {
             const query = `select name from ${TABLE} ;`;
             
