@@ -29,6 +29,19 @@ class ProductMetaWorker {
             throw error;
         } 
     }
+    static async keyAupdateO(id) { // amazon // flipkart pending 
+        try {
+            let query = `update ${TABLE} set crawl_status_amazon = 'O' where id in(${id})`;
+            console.log('query ',query)
+            const result = await pool.query(query);
+            //console.log('result ',result)
+           // console.log(result[0].stateid);
+            return result;
+        } catch (error) {
+            console.log(error.stack);
+            throw error;
+        } 
+    }
 
 
 
