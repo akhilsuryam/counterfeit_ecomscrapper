@@ -1,3 +1,3 @@
-const workertest = require("./ProductMetaWorker")
-let companies= workertest.getpage()
-console.log(companies)
+const ProductMetaWorker = require("./ProductMetaWorker")
+let names= ProductMetaWorker.getpage()
+console.log(names)
