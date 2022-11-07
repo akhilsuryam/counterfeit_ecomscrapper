@@ -1,3 +1,3 @@
 const ProductMetaWorker = require("./ProductMetaWorker")
-let names= ProductMetaWorker.getkeywordA()
+let names= ProductMetaWorker.getpage()
 console.log(names)
