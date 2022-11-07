@@ -29,9 +29,22 @@ class ProductMetaWorker {
             throw error;
         } 
     }
-    static async keyAupdateO(id) { // amazon // flipkart pending 
+    static async keyAmazonupdateC(id) { // amazon 
         try {
-            let query = `update ${TABLE} set crawl_status_amazon = 'O' where id in(${id})`;
+            let query = `update ${TABLE} set crawl_status_amazon = 'C' where id in(${id})`;
+            console.log('query ',query)
+            const result = await pool.query(query);
+            //console.log('result ',result)
+           // console.log(result[0].stateid);
+            return result;
+        } catch (error) {
+            console.log(error.stack);
+            throw error;
+        } 
+    }
+    static async keyFlipkartupdateC(id) { // flipkart
+        try {
+            let query = `update ${TABLE} set crawl_status_flipkart = 'C' where id in(${id})`;
             console.log('query ',query)
             const result = await pool.query(query);
             //console.log('result ',result)

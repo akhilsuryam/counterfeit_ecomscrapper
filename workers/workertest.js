@@ -6,4 +6,6 @@
     
     let namesF = await ProductMetaWorker.getkeywordF()
     console.log('namesF',namesF)
+
+    keyAmazonupdateC(1)
   })();
