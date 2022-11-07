@@ -1,3 +1,3 @@
-const workertest = require("./ProductMetaWorker")
-let names= workertest.getkeyA()
-console.log(names)
+const workertest = require("./EcomWorker")
+let companies=await workertest.getpage()
+console.log(companies)
