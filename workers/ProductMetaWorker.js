@@ -1,3 +1,6 @@
+const util = require('util');
+const mysql = require('mysql');
+
 const pool = require("../database/database")
 let TABLE = "product_meta" 
 class ProductMetaWorker {
