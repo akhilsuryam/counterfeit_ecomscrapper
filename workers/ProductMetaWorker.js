@@ -1,10 +1,10 @@
-const pool = require("../database.js")
+const pool = require("../database/database")
 
-const company = 'company'
-class EcomWorker { 
-    static async getpage() {
+const product_meta = 'product_meta'
+class ProductMetaWorker { 
+    static async getkeyA() {
         try {
-            const query = `select name from ${company} ;`;
+            const query = `select name from ${product_meta} ;`;
             
             //console.log('query ',query)
             const result = await pool.query(query);
@@ -20,4 +20,4 @@ class EcomWorker {
 }
 
 
-module.exports = EcomWorker; 
+module.exports = ProductMetaWorker; 
