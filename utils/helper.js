@@ -271,13 +271,13 @@ class Helper {
                       
                       // console.log("href :", href_link);
                       obj = {
+                        prod_link : href_link,
                           prod_name : prod,
                           description : desc,
                           original_price : op, 
                           sale_price : sp,
                           // assurance : asr,
                           images : images,
-                          prod_link : href_link // new added
                       }
                       console.log("object:",obj)
                           // console.log("meta array length: ", meta_array.length);
@@ -1134,7 +1134,18 @@ class Helper {
   static randomIntFromInterval(min, max) { // min and max included 
         return Math.floor(Math.random() * (max - min + 1) + min)
   }
-  
+  static stringConcat(arr){ 
+    // let array = []
+    console.log("got array",arr); // arr =[1,2,3]
+    let concatarr = '';
+    for (let index = 0; index < arr.length; index++) {
+        concatarr = concatarr + `${arr[index]},` 
+    } 
+    concatarr = concatarr.slice(0,-1);   
+    console.log('concatarr: ',concatarr);
+    return concatarr
+    // NgoWorker.finalstausupdate(stateids);  
+    }
 
 }
 
