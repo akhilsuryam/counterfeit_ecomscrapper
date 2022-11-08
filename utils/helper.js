@@ -271,13 +271,13 @@ class Helper {
                       
                       // console.log("href :", href_link);
                       obj = {
+                        prod_link : href_link,
                           prod_name : prod,
                           description : desc,
                           original_price : op, 
                           sale_price : sp,
                           // assurance : asr,
                           images : images,
-                          prod_link : href_link // new added
                       }
                       console.log("object:",obj)
                           // console.log("meta array length: ", meta_array.length);
