@@ -5,11 +5,11 @@ const pool = require("../database/database")
 let TABLE = "product_meta" 
 class ProductMetaWorker {
     
-    static async getkeywordA() {
+    static async getkeywordAmazon(status) {
         try {
-            const query = `select name from ${TABLE} where crawl_status_amazon = 'A' ;` ;
+            const query = `select name from ${TABLE} where crawl_status_amazon = ? ;` ;
             
-            const result = await pool.query(query);
+            const result = await pool.query(query,[status]);
 
             return result;
         } catch (error) {
@@ -17,11 +17,11 @@ class ProductMetaWorker {
             throw error;
         } 
     }
-    static async getkeywordF() {
+    static async getkeywordFlipkart(status) {
         try {
-            const query = `select name from ${TABLE} where crawl_status_flipkart = 'A' ;`;
+            const query = `select name from ${TABLE} where crawl_status_flipkart = ? ;`;
             
-            const result = await pool.query(query);
+            const result = await pool.query(query,[status]);
 
             return result;
         } catch (error) {
@@ -29,11 +29,11 @@ class ProductMetaWorker {
             throw error;
         } 
     }
-    static async keyAmazonupdateC(id) { // amazon 
+    static async updateAmazonStatusById(status,id) { // amazon 
         try {
-            let query = `update ${TABLE} set crawl_status_amazon = 'C' where id in(${id})`;
-            console.log('query ',query)
-            const result = await pool.query(query);
+            let query = `update ${TABLE} set crawl_status_amazon = ? where id =? `;
+            console.log('query ',query[status, id])
+            const result = await pool.query(query,[status, id]);
             //console.log('result ',result)
            // console.log(result[0].stateid);
             return result;
@@ -42,11 +42,11 @@ class ProductMetaWorker {
             throw error;
         } 
     }
-    static async keyFlipkartupdateC(id) { // flipkart
+    static async updateFlipkartStatusById(status,id) { // flipkart
         try {
-            let query = `update ${TABLE} set crawl_status_flipkart = 'C' where id in(${id})`;
-            console.log('query ',query)
-            const result = await pool.query(query);
+            let query = `update ${TABLE} set crawl_status_flipkart = ? where id =? `;
+            console.log('query ',query[status, id])
+            const result = await pool.query(query,[status, id]);
             //console.log('result ',result)
            // console.log(result[0].stateid);
             return result;
