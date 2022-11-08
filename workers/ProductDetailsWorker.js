@@ -122,6 +122,17 @@ class ProductDetailsWorker {
         }
         return result;
     }
+    
+    static async updateProductStatusByIds(status,ids){
+        try {
+            const query = `UPDATE ${TABLE} SET status= ? WHERE id IN ('${ids}');`;
+            const result = await pool.query(query,[status]);
+            return result;
+        } catch (error) {
+            console.log(error.stack);
+            throw error;
+        }
+    }
 
 
 
