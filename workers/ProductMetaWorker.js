@@ -31,8 +31,8 @@ class ProductMetaWorker {
     }
     static async bulkupdateStatusByIdsAmazon(status,ids){ // bulk A to O
         try {
-            const query = `UPDATE ${TABLE} SET crawl_status_amazon= ? WHERE id = IN ('${ids}');`; // IN ('${ids}') in (1,2,3,4)
-            const result = await pool.query(query,[status,ids]);
+            const query = `UPDATE ${TABLE} SET crawl_status_amazon= ? WHERE id IN (${ids});`; //  IN (${ids})= '1,3,4'
+            const result = await pool.query(query,[status]);
             return result;
         } catch (error) {
             console.log(error.stack);
