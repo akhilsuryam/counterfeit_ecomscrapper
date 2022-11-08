@@ -7,7 +7,7 @@ class ProductDetailsWorker {
     
     static async getProductUrl(platform_id) {
         try {
-            const query = `select name from ${TABLE} where platform_id = ? limit 3;` ;
+            const query = `select id,url from ${TABLE} where platform_id = ? limit 3;` ;
             
             const result = await pool.query(query,[platform_id]);
 
@@ -36,6 +36,16 @@ class ProductDetailsWorker {
             
         }
         return result;
+    }
+    static async bulkupdateStatusByIds(status,ids){ // bulk A to O
+        try {
+            const query = `UPDATE ${TABLE} SET status= ? WHERE id IN (${ids});`; //  IN (${ids})= '1,3,4'
+            const result = await pool.query(query,[status]);
+            return result;
+        } catch (error) {
+            console.log(error.stack);
+            throw error;
+        }
     }
 
 
