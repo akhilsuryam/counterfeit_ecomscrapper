@@ -6,7 +6,9 @@
     
     let namesF = await ProductMetaWorker.getkeywordFlipkart('A')
     console.log('namesF',namesF)
-
-    ProductMetaWorker.updateAmazonStatusById('C','1')
-    ProductMetaWorker.updateFlipkartStatusById('C','2')
+    // let arr =[1,3,4];
+    ProductMetaWorker.bulkupdateStatusByIdsAmazon('O',[]) // [[1],[2],[3]]
+    console.log('bulk updated')
+    // ProductMetaWorker.updateAmazonStatusById('C','1')
+    // ProductMetaWorker.updateFlipkartStatusById('C','2')
   })();

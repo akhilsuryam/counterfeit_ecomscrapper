@@ -5,11 +5,11 @@ const pool = require("../database/database")
 let TABLE = "product_details" 
 class ProductDetailsWorker {
     
-    static async getkeywordAmazon(status) {
+    static async getProductUrl(platform_id) {
         try {
-            const query = `select name from ${TABLE} where crawl_status_amazon = ? limit 3;` ;
+            const query = `select name from ${TABLE} where platform_id = ? limit 3;` ;
             
-            const result = await pool.query(query,[status]);
+            const result = await pool.query(query,[platform_id]);
 
             return result;
         } catch (error) {
