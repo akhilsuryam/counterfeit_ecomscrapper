@@ -23,37 +23,32 @@ class ProductDetailsWorker {
         try {
             
             if(STATEID > 0){
-                let stringmembers = JSON.stringify(mResult.members)
-                let stringfunds = JSON.stringify(mResult.funds)
-                //console.log("funds",stringfunds);
-                
-                 //const query = `UPDATE ngodetails SET uniqueid = ?, memberdetails =? , achievments = ?,contact=?, regcompany = ?,regtype=?, regno = ?,regupload=?, pancard=?, actname = ?,regcity=?, regstate=?,regdate=? ,keyissue = ?,operationstate =?,operationdistrict =? ,contactaddress =? ,contactcity =? ,contactstate =? ,contacttelephone =? ,contactmobileno =? ,contactwebsite =? ,contactemail =?  where stateid = ?;`  
-
+              
                  const query = `UPDATE ngodetails SET  
                  company_id = ?, 
-                 
-                 achievments = ?,
-                 contact=?,
-                 regcompany = ?,
-                 regtype=?,
-                 regno = ?,
-                 regupload=?,
-                 pancard=?,
-                 actname = ?,
-                 regcity=?,
-                 regstate=?,
-                 regdate=?,
-                 keyissue = ?,
-                 operationstate =?,
-                 operationdistrict =?,
-                 fundinginfo = ?,  
-                 contactaddress =?,
-                 contactcity =?,
-                 contactstate =?,
-                 contacttelephone =?,
-                 contactmobileno =?,
-                 contactwebsite =?,
-                 contactemail =?
+                 id int AI PK 
+                 product_id int 
+                 url varchar(700) 
+                 status varchar(3) 
+                 title varchar(100) 
+                 description longtext 
+                 selling_price int 
+                 mrp int 
+                 overall_rating int 
+                 overall_reveiw int 
+                 5_star_rating int 
+                 4_star_rating int 
+                 3_star_rating int 
+                 2_star_rating int 
+                 1_star_rating int 
+                 5_star_review int 
+                 4_star_review int 
+                 3_star_review int 
+                 2_star_review int 
+                 1_star_review int  
+                 assurance int 
+                 review_link varchar(100) 
+                 platform_id int
                  where stateid =?
                  
                  
@@ -104,6 +99,28 @@ class ProductDetailsWorker {
         }
         return result; 
   
+    }
+
+
+    
+
+    static async insertDetailsBulk(mainArr) {
+        let result
+        try {
+            if(mainArr.length > 0){
+
+                const query = 'INSERT IGNORE INTO `product_details` ( `id`, `product_id`, `url`, `status`, `title`, `description`, `selling_price`, `mrp`, `overall_rating`, `overall_reveiw`, `5_star_rating`, `4_star_rating`, `3_star_rating`, `2_star_rating`, `1_star_rating`, `5_star_review`, `4_star_review`, `3_star_review`, `2_star_review`, `1_star_review`, `assurance`, `review_link`, `platform_id`)VALUES ?;'
+
+                
+                result = await pool.query(query,[mainArr]);
+                
+            }
+            
+        } catch (error) {
+            console.log('error',error.stack);
+            
+        }
+        return result;
     }
 
 
