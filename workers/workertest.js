@@ -14,3 +14,5 @@ const Helper = require('../utils/helper');
     // ProductMetaWorker.updateAmazonStatusById('C','1')
     // ProductMetaWorker.updateFlipkartStatusById('C','2')
   })();
+
+  
