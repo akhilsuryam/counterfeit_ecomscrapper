@@ -50,6 +50,17 @@ class ProductDetailsWorker {
     }
 
 
+    static async updateReviewStatusByIds(status,ids){
+        try {
+            const query = `UPDATE ${TABLE} SET review_status= ? WHERE id IN ('${ids}');`;
+            const result = await pool.query(query,[status]);
+            return result;
+        } catch (error) {
+            console.log(error.stack);
+            throw error;
+        }
+    }
+
 
 
 }
