@@ -70,17 +70,26 @@ class ProductDetailsWorker {
             throw error;
         }
     }
-    static async bulkupdateReviewStatusByIds(status,ids){ //  Bulk update review status A to O
+    static async bulkupdateReviewStatusByIds(review_status,ids){ //  Bulk update review status A to O
         try {
             const query = `UPDATE ${TABLE} SET review_status= ? WHERE id IN (${ids});`; //  IN (${ids})= '1,3,4
-            const result = await pool.query(query,[status]);
+            const result = await pool.query(query,[review_status]);
             return result;
         }catch{
             console.log(error.stack);
             throw error;
         }
     }
-
+    static async getReviewUrl(review_status,product_id) {
+        try {
+            const query = `select review_link from ${TABLE} where review_status = ? and product_id in (${product_id});` 
+            const result = await pool.query(query,[review_status]);
+            return result;
+        } catch (error) {
+            console.log(error.stack);
+            throw error;
+        } 
+    }
 
 
 
