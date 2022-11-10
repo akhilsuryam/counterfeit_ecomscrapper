@@ -90,6 +90,34 @@ class ProductDetailsWorker {
             throw error;
         } 
     }
+    static async updateDetailsBulk(mainArr) {
+        let result
+        try {
+            if(mainArr.length > 0){
+
+                const query = `UPDATE ${TABLE} SET 5_star_rating= ?,
+                4_star_rating= ?,
+                3_star_rating = ?,
+                2_star_rating = ?,
+                1_star_rating = ?, 
+                5_star_review = ?, 
+                4_star_review = ?, 
+                3_star_review = ?, 
+                2_star_review = ?,
+                1_star_review = ? 
+                 where product_id= ?;`
+               
+                result = await pool.query(query,mainArr);
+                
+            }
+            
+        } catch (error) {
+            console.log('error',error.stack);
+            
+        }
+        return result;
+    }
+
 
 
 
@@ -97,3 +125,13 @@ class ProductDetailsWorker {
 }
 
 module.exports = ProductDetailsWorker
+/*
+4_star_rating = ?, 
+                3_star_rating = ?,
+                2_star_rating = ?,
+                1_star_rating = ?, 
+                5_star_review = ?, 
+                4_star_review = ?, 
+                3_star_review = ?, 
+                2_star_review = ?,
+                1_star_review = ? */
