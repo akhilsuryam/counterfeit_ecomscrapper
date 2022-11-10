@@ -50,7 +50,7 @@ class ProductDetailsWorker {
     }
 
 
-    static async updateReviewStatusByIds(status,ids){
+    static async updateReviewStatusByIds(status,ids){ // O to C
         try {
             const query = `UPDATE ${TABLE} SET review_status= ? WHERE id IN ('${ids}');`;
             const result = await pool.query(query,[status]);
@@ -70,12 +70,12 @@ class ProductDetailsWorker {
             throw error;
         }
     }
-    static async updateProductStatusByIds(status,ids){
+    static async bulkupdateReviewStatusByIds(status,ids){ // bulk A to O
         try {
-            const query = `UPDATE ${TABLE} SET status= ? WHERE id IN ('${ids}');`;
+            const query = `UPDATE ${TABLE} SET review_status= ? WHERE id IN (${ids});`; //  IN (${ids})= '1,3,4
             const result = await pool.query(query,[status]);
             return result;
-        } catch (error) {
+        }catch{
             console.log(error.stack);
             throw error;
         }
