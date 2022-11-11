@@ -40,8 +40,8 @@ class ProductDetailsWorker {
     
     static async updateProductStatusByIds(status,ids){ // update product status O to C by id
         try {
-            const query = `UPDATE ${TABLE} SET status= ? WHERE id IN ('${ids}');`;
-            const result = await pool.query(query,[status]);
+            const query = `UPDATE ${TABLE} SET status= ? WHERE id =?;`;
+            const result = await pool.query(query,[status,ids]);
             return result;
         } catch (error) {
             console.log(error.stack);
@@ -49,11 +49,11 @@ class ProductDetailsWorker {
         }
     }
 
-
+// o to c changes
     static async updateReviewStatusByIds(status,ids){ // update review status O to C by id
         try {
-            const query = `UPDATE ${TABLE} SET review_status= ? WHERE id IN ('${ids}');`;
-            const result = await pool.query(query,[status]);
+            const query = `UPDATE ${TABLE} SET review_status= ? WHERE id=?;`;
+            const result = await pool.query(query,[status,ids]);
             return result;
         } catch (error) {
             console.log(error.stack);
