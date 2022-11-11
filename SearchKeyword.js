@@ -147,6 +147,7 @@ class SearchKeyword{
     static runF = async () => {
       let platform_id = await PlatformWorker.getPlatformId('flipkart');
       let keywords = await ProductMetaWorker.getkeywordsFlipkart('A');
+      let data_array;
       console.log("keywords:",keywords)
       // console.log("id:",Object.values(keywords[0]))
       let key = keywords.map(({name})=>(name));
@@ -155,7 +156,9 @@ class SearchKeyword{
       console.log("id",id)
       await ProductMetaWorker.bulkupdateStatusByIdsAmazon('O',id)
       for(let i=0; i< key.length; i++){
-        await this.getKeydataflipkart(platform_id,key[i]) 
+         
+        data_array = await this.getKeydataflipkart(platform_id,key[i])
+
       }
       
       
