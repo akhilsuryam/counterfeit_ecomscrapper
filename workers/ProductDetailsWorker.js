@@ -49,7 +49,7 @@ class ProductDetailsWorker {
         }
     }
 
-
+// o to c changes
     static async updateReviewStatusByIds(status,ids){ // update review status O to C by id
         try {
             const query = `UPDATE ${TABLE} SET review_status= ? WHERE id IN ('${ids}');`;
