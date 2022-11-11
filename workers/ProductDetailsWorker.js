@@ -80,10 +80,10 @@ class ProductDetailsWorker {
             throw error;
         }
     }
-    static async getReviewUrls(review_status,product_id) {
+    static async getReviewUrls(review_status,platform_id) {
         try {
-            const query = `select review_link from ${TABLE} where review_status = ? and product_id in (${product_id});` 
-            const result = await pool.query(query,[review_status]);
+            const query = `select review_link from ${TABLE} where review_status = ? and platform_id =? limit 3;` 
+            const result = await pool.query(query,[review_status,platform_id]);
             return result;
         } catch (error) {
             console.log(error.stack);
