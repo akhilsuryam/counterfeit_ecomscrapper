@@ -76,7 +76,7 @@ class ProductMetaWorker {
             throw error;
         } 
     }
-
+   
 
 
 
