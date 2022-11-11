@@ -1,4 +1,4 @@
-const SearchKeyword = require('./SearchKeyword');
+const SearchKeyword = require('./SearchKeywordA');
 // let keyword = "chocolate"
 SearchKeyword.runA();
  
