@@ -148,18 +148,13 @@ class SearchKeyword{
       let platform_id = await PlatformWorker.getPlatformId('flipkart');
       let keywords = await ProductMetaWorker.getkeywordsFlipkart('A');
       console.log("keywords:",keywords)
-      console.log("keywords:",keywords)
       // console.log("id:",Object.values(keywords[0]))
-      let key = keywords.map(({id,name})=>(name));
-      let id = keywords.map(({id,name})=>(id));
-      console.log(id)
+      let key = keywords.map(({name})=>(name));
+      let id = keywords.map(({id})=>(id));
+      console.log("key:",key)
+      console.log("id",id)
       await ProductMetaWorker.bulkupdateStatusByIdsAmazon('O',id)
-      let keyidarr = []
       for(let i=0; i< key.length; i++){
-        // let key = key[i].name
-        console.log("key:",key)
-        // let id = keywords[i].id
-        // keyidarr.push(id)
         await this.getKeydataflipkart(platform_id,key[i]) 
       }
       
