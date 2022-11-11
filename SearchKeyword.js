@@ -3,11 +3,14 @@ const Helper = require('./utils/helper');
 const config = require('./config/config');
 const bConfig = require('./config/browserConfig');
 const res = require('./config/Res');
+const PlatformWorker =  require('./workers/PlatformWorker');
+const ProductMetaWorker =  require('./workers/ProductMetaWorker');
+
 
 
 
 class SearchKeyword{
-    static  getKeydataamazon = async (keyword) => {
+    static  getKeydataamazon = async (platform,keyword) => {
       let [page,browser] = await Helper.createpage();
                 // await page.goto(config.SCRAPE.amazon.URL);
                 page =await Helper.openurl(page,config.SCRAPE.amazon.Url);
@@ -67,7 +70,7 @@ class SearchKeyword{
                 }
         }
     
-    static getKeydataflipkart = async (keyword) => {
+    static getKeydataflipkart = async (platform,keyword) => {
           console.log("inside getKeydataflipkart function")
           let [page,browser] = await Helper.createpage(); 
           page = await Helper.openurl(page, config.SCRAPE.flipkart.Url)  // calling openurl
@@ -121,9 +124,30 @@ class SearchKeyword{
           }
           console.log("final array lenght:" + data_array.length)  //added
       }
-      
-
+    static runA = async () => {
+      let platform_id = await PlatformWorker.getPlatformId('amazon');
+      let keywords = await ProductMetaWorker.getkeywordsAmazon('A');
+      console.log("keywords:",keywords)
+      for(let i=0; i< keywords.length; i++){
+        let key = keywords[i].name
+        console.log("key:",key)
+        await this.getKeydataamazon(platform_id,key)
       }
+      
+    }
+    static runF = async () => {
+      let platform_id = await PlatformWorker.getPlatformId('flipkart');
+      let keywords = await ProductMetaWorker.getkeywordsFlipkart('A');
+      console.log("keywords:",keywords)
+      for(let i=0; i< keywords.length; i++){
+        let key = keywords[i].name
+        console.log("key:",key)
+        await this.getKeydataflipkart(platform_id,key)
+      }
+      
+    }      
+
+  }
 
 
 
