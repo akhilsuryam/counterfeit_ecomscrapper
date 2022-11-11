@@ -128,22 +128,41 @@ class SearchKeyword{
       let platform_id = await PlatformWorker.getPlatformId('amazon');
       let keywords = await ProductMetaWorker.getkeywordsAmazon('A');
       console.log("keywords:",keywords)
-      for(let i=0; i< keywords.length; i++){
-        let key = keywords[i].name
+      // console.log("id:",Object.values(keywords[0]))
+      let key = keywords.map(({id,name})=>(name));
+      let id = keywords.map(({id,name})=>(id));
+      console.log(id)
+      await ProductMetaWorker.bulkupdateStatusByIdsAmazon('O',id)
+      let keyidarr = []
+      for(let i=0; i< key.length; i++){
+        // let key = key[i].name
         console.log("key:",key)
-        await this.getKeydataamazon(platform_id,key)
+        // let id = keywords[i].id
+        // keyidarr.push(id)
+        await this.getKeydataamazon(platform_id,key[i])
       }
+      // await ProductMetaWorker.bulkupdateStatusByIdsAmazon(O,keyidarr)
       
     }
     static runF = async () => {
       let platform_id = await PlatformWorker.getPlatformId('flipkart');
       let keywords = await ProductMetaWorker.getkeywordsFlipkart('A');
       console.log("keywords:",keywords)
-      for(let i=0; i< keywords.length; i++){
-        let key = keywords[i].name
+      console.log("keywords:",keywords)
+      // console.log("id:",Object.values(keywords[0]))
+      let key = keywords.map(({id,name})=>(name));
+      let id = keywords.map(({id,name})=>(id));
+      console.log(id)
+      await ProductMetaWorker.bulkupdateStatusByIdsAmazon('O',id)
+      let keyidarr = []
+      for(let i=0; i< key.length; i++){
+        // let key = key[i].name
         console.log("key:",key)
-        await this.getKeydataflipkart(platform_id,key)
+        // let id = keywords[i].id
+        // keyidarr.push(id)
+        await this.getKeydataflipkart(platform_id,key[i]) 
       }
+      
       
     }      
 
