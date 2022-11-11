@@ -5,18 +5,6 @@ const pool = require("../database/database")
 let TABLE = "product_details" 
 class ReviewWorker {
     
-    static async getProductUrl(platform_id) {
-        try {
-            const query = `select name from ${TABLE} where platform_id = ? limit 3;` ;
-            
-            const result = await pool.query(query,[platform_id]);
-
-            return result;
-        } catch (error) {
-            console.log(error.stack);
-            throw error;
-        } 
-    }
      
 
     static async insertReviewBulk(mainArr) {
