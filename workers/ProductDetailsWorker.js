@@ -125,13 +125,3 @@ class ProductDetailsWorker {
 }
 
 module.exports = ProductDetailsWorker
-/*
-4_star_rating = ?, 
-                3_star_rating = ?,
-                2_star_rating = ?,
-                1_star_rating = ?, 
-                5_star_review = ?, 
-                4_star_review = ?, 
-                3_star_review = ?, 
-                2_star_review = ?,
-                1_star_review = ? */
