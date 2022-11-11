@@ -5,7 +5,7 @@ const pool = require("../database/database")
 let TABLE = "product_meta" 
 class ProductMetaWorker {
     
-    static async getkeywordAmazon(status) {
+    static async getkeywordsAmazon(status) {
         try {
             const query = `select id,name from ${TABLE} where crawl_status_amazon = ? limit 3;` ;
             
@@ -17,7 +17,7 @@ class ProductMetaWorker {
             throw error;
         } 
     }
-    static async getkeywordFlipkart(status) {
+    static async getkeywordsFlipkart(status) {
         try {
             const query = `select id,name from ${TABLE} where crawl_status_flipkart = ? limit 3;`;
             
