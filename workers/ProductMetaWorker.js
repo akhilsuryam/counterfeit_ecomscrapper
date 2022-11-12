@@ -31,7 +31,7 @@ class ProductMetaWorker {
     }
     static async bulkupdateStatusByIdsAmazon(status,ids){ // bulk A to O
         try {
-            const query = `UPDATE ${TABLE} SET crawl_status_amazon= ? WHERE id IN (${ids});`; //  IN (${ids})= '1,3,4'
+            const query = `UPDATE ${TABLE} SET crawl_status_amazon= ? WHERE id IN (${ids});`; //  (${ids})= '1,3,4'
             const result = await pool.query(query,[status]);
             return result;
         } catch (error) {
@@ -41,7 +41,7 @@ class ProductMetaWorker {
     }
     static async bulkupdateStatusByIdsFlipkart(status,ids){ // bulk A to O
         try {
-            const query = `UPDATE ${TABLE} SET crawl_status_flipkart = ? WHERE id IN ('${ids}');`;
+            const query = `UPDATE ${TABLE} SET crawl_status_flipkart = ? WHERE id IN (${ids});`;
             const result = await pool.query(query,[status]);
             return result;
         } catch (error) {

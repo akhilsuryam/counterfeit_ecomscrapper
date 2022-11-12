@@ -280,7 +280,8 @@ class Helper {
                           images : images,
                       }
                       console.log("object:",obj)
-                          // console.log("meta array length: ", meta_array.length);
+                        // console.log("meta array length: ", meta_array.length);
+                                         
                       meta_array.push(obj)
                       // obj = {}
 
@@ -1146,6 +1147,65 @@ class Helper {
     return concatarr
     // NgoWorker.finalstausupdate(stateids);  
     }
+    static async typeKey(page,selector,keyword){
+        await page.type(selector.searchBar, keyword , {delay: 100});  
+          try {
+              await page.click(selector.searchBtn) 
+              await page.waitForTimeout(2000);
+          } catch (error) {
+              console.log(error)
+          }
+        return page
+    }
+    static async getKeySearch(page,config){
+        let flag = true;
+        let page_count = 0;
+        let metadata; // page data
+        let temparr=[];
+        let imgarr=[];
+        let bulkInsertArr = []; // key data
+        while (flag) {
+            page_count++;
+            console.log("PAGE NUMBER:", page_count);
+            metadata = await this.getmetaDataF(page, config); // page data
+            console.log("DATA OF PAGE:",page_count,metadata);
+            // data_array.push(metadata);
+            for(let i=0; i< metadata.length; i++){
+                temparr.push(metadata[i].prod_link)
+                temparr.push(metadata[i].prod_name)
+                temparr.push(metadata[i].description)
+                temparr.push(metadata[i].original_price)
+                temparr.push(metadata[i].sale_price)
+                imgarr.push(metadata[i].images)
+
+                bulkInsertArr.push(temparr);
+                temparr=[]
+            }
+            console.log('bulkInsertArr',bulkInsertArr)
+            console.log("==========================");
+            
+            if(page_count > 1){
+                flag = false;
+            }
+            else{
+                console.log("next page..");
+                console.log(config.SCRAPE.flipkart.nextbtn);            
+                
+                try {   
+                    await page.click(config.SCRAPE.flipkart.nextbtn);
+                    console.log('Before wait')
+                    await page.waitForTimeout(8000)
+                    console.log('After wait')
+                    
+                } catch (error) {
+                    console.log(error);
+                }
+    
+            }          
+        }
+        return bulkInsertArr, imgarr;
+    } 
+    
 
 }
 
