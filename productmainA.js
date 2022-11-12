@@ -1,2 +1,2 @@
-const ProductMeta = require('./ProductMeta')
-ProductMeta.getproductdataA();
+const ProductMetaA = require('./ProductMetaA')
+ProductMetaA.getproductdataA();
