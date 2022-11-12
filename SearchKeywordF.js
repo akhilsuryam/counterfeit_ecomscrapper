@@ -7,6 +7,7 @@ const res = require('./config/Res');
 const PlatformWorker =  require('./workers/PlatformWorker');
 const ProductMetaWorker =  require('./workers/ProductMetaWorker');
 const ProductDetailsWorker = require('./workers/ProductDetailsWorker');
+const ImagesWorker =  require('./workers/ImagesWorker')
 
 
 
@@ -76,12 +77,13 @@ class SearchKeywordF{
     
     // Get Result data
     console.log("Scrapping data..") 
-    let bulkInsertArr=[]; // key data
-    [bulkInsertArr,imgarr] = await Helper.getKeySearch(page,config);
+    let bulkInsertArr; // key data
+    bulkInsertArr = await Helper.getKeySearch(page,config);
     
-    console.log("final array lenght:" + bulkInsertArr.length)  //added
+    console.log("final array lenght:" + bulkInsertArr.length)  
 
     await ProductDetailsWorker.insertDetailsBulk(bulkInsertArr)
+    // await ImagesWorker.insertImageUrls(imgarr)
 
     await ProductDetailsWorker.updateProductStatusByIds('C',id)
     // cross function

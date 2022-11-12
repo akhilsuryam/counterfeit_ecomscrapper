@@ -10,7 +10,7 @@ class ImagesWorker {
         try {
             if(imgarr.length > 0){
 
-                const query = 'INSERT IGNORE INTO `images` ( `product_id`,`image_link`) VALUES ?;'
+                const query = 'INSERT IGNORE INTO `images` ( product_id,image_link) VALUES ?;';
           
                 
                 result = await pool.query(query,[imgarr]);

@@ -1162,7 +1162,7 @@ class Helper {
         let page_count = 0;
         let metadata; // page data
         let temparr=[];
-        let imgarr=[];
+        // let imgarr=[];
         let bulkInsertArr = []; // key data
         while (flag) {
             page_count++;
@@ -1176,12 +1176,12 @@ class Helper {
                 temparr.push(metadata[i].description)
                 temparr.push(metadata[i].original_price)
                 temparr.push(metadata[i].sale_price)
-                imgarr.push(metadata[i].images)
+                temparr.push(metadata[i].images)
 
                 bulkInsertArr.push(temparr);
                 temparr=[]
             }
-            console.log('bulkInsertArr',bulkInsertArr)
+            // console.log('bulkInsertArr',bulkInsertArr)
             console.log("==========================");
             
             if(page_count > 1){
@@ -1203,7 +1203,7 @@ class Helper {
     
             }          
         }
-        return bulkInsertArr, imgarr;
+        return bulkInsertArr;
     } 
     
 

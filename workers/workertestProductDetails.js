@@ -21,14 +21,18 @@ const Helper = require('../utils/helper');
         'Baby Boys Festive & Party Kurta, Waistcoat and Pyjama S...',
         '₹449',
         '₹1,299',
-        'https://rukminim1.flixcart.com/image/452/542/xif0q/kids-ethnic-set/i/c/y/1-2-years-wjs-mr-fashion-original-imaggnyyzhsceujt.jpeg?q=50'
+        'https://awsminim1.flixcart.com/image/452/542/xif0q/kids-ethnic-set/i/c/y/1-2-years-wjs-mr-fashion-original-imaggnyyzhsceujt.jpeg?q=50'
       ]]
     
-    // ProductDetailsWorker.insertDetailsBulk([['122','2222','33333333333', '4444444444444444', '555555555555', '666666666666666', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22','23'],['888888888122','28222','3838333333333', '44448444444444444', '5555555558555', '6666666668666666', '887', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22','23'],['1622','62222','333366666663333333', '44444444444444644', '555555566655555','6666666', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22','23']])
+    ProductDetailsWorker.insertDetailsBulk(bulkInsertArr)
+      // [['122','2222','33333333333', '4444444444444444', '555555555555', '666666666666666', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22','23'],['888888888122','28222','3838333333333', '44448444444444444', '5555555558555', '6666666668666666', '887', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22','23'],['1622','62222','333366666663333333', '44444444444444644', '555555566655555','6666666', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22','23']])
     // ProductDetailsWorker.updateReviewStatusByIds('A',4)
 
-    let imgarr = [[1,'https://rukminim1.flixcart.com/image/452/542/kl2mljk0/sari/c/f/u/free-cotton-01-jashvicreation-unstitched-original-imagya4ezrhxdk7r.jpeg?q=50'],[2,'https://rukminim1.flixcart.com/image/452/542/l4ln8nk0/sari/1/v/p/free-aarya-ishika-fab-unstitched-original-imagfguy6emggfgb.jpeg?q=50']]
-    ImagesWorker.insertImageUrls(imgarr)
+    // let imgarr = [
+    //   [1,'https://rukminim1.flixcart.com/image/452/542/kl2mljk0/sari/c/f/u/free-cotton-01-jashvicreation-unstitched-original-imagya4ezrhxdk7r.jpeg?q=50'],
+    //   [2,'https://awsabscf.flixcart.com/image/452/542/l4ln8nk0/sari/1/v/p/free-aarya-ishika-fab-unstitched-original-imagfguy6emggfgb.jpeg?q=50']
+    // ]
+    // ImagesWorker.insertImageUrls(imgarr)
     // let arr =[1,2,3];
     // let para = Helper.stringConcat(arr)
     // console.log('para',para)
