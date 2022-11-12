@@ -10,7 +10,7 @@ const ProductMetaWorker =  require('./workers/ProductMetaWorker');
 
 
 class SearchKeywordF{
-    static getKeydataflipkart = async (platform,keyword) => {
+    static getSearchResult = async (platform,keyword) => {
           console.log("inside getKeydataflipkart function")
           let [page,browser] = await Helper.createpage(); 
           page = await Helper.openurl(page, config.SCRAPE.flipkart.Url)  // calling openurl
@@ -76,10 +76,8 @@ class SearchKeywordF{
       console.log("id",id)
       await ProductMetaWorker.bulkupdateStatusByIdsAmazon('O',id)
       for(let i=0; i< key.length; i++){
-        await this.getKeydataflipkart(platform_id,key[i]) 
+        await this.getSearchResult(platform_id,key[i]) 
       }
-      
-      
     }      
 
   }
