@@ -9,8 +9,8 @@ const ProductMetaWorker =  require('./workers/ProductMetaWorker');
 
 
 
-class SearchKeyword{
-    static  getKeydataamazon = async (platform,keyword) => {
+class SearchKeywordA{
+    static  getSearchResult = async (platform,keyword) => {
       let [page,browser] = await Helper.createpage();
                 // await page.goto(config.SCRAPE.amazon.URL);
                 page =await Helper.openurl(page,config.SCRAPE.amazon.Url);
@@ -123,8 +123,8 @@ class SearchKeyword{
               }          
           }
           console.log("final array lenght:" + data_array.length)  //added
-      }
-    static runA = async () => {
+      }//delete flipkary
+    static run = async () => {
       let platform_id = await PlatformWorker.getPlatformId('amazon');
       let keywords = await ProductMetaWorker.getkeywordsAmazon('A');
       console.log("keywords:",keywords)
@@ -139,34 +139,15 @@ class SearchKeyword{
         console.log("key:",key)
         // let id = keywords[i].id
         // keyidarr.push(id)
-        await this.getKeydataamazon(platform_id,key[i])
+        await this.getSearchResult(platform_id,key[i])
       }
       // await ProductMetaWorker.bulkupdateStatusByIdsAmazon(O,keyidarr)
       
-    }
-    static runF = async () => {
-      let platform_id = await PlatformWorker.getPlatformId('flipkart');
-      let keywords = await ProductMetaWorker.getkeywordsFlipkart('A');
-      let data_array;
-      console.log("keywords:",keywords)
-      // console.log("id:",Object.values(keywords[0]))
-      let key = keywords.map(({name})=>(name));
-      let id = keywords.map(({id})=>(id));
-      console.log("key:",key)
-      console.log("id",id)
-      await ProductMetaWorker.bulkupdateStatusByIdsAmazon('O',id)
-      for(let i=0; i< key.length; i++){
-         
-        data_array = await this.getKeydataflipkart(platform_id,key[i])
-
-      }
-      
-      
-    }      
-
+    }//main file create and run willl call it 
+    
   }
 
 
 
 
-module.exports = SearchKeyword;
+module.exports = SearchKeywordA;
