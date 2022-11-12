@@ -5,6 +5,7 @@ const bConfig = require('./config/browserConfig');
 const res = require('./config/Res');
 const ProductDetailsWorker =  require('./workers/ProductDetailsWorker');
 
+
 class ProductMeta{
         static getproductdataA = async (url,page,browser)=> {
             // let [page,browser] = await Helper.createpage();
@@ -46,7 +47,8 @@ class ProductMeta{
           for (let index = 0; index < urlarray.length; index++) {
             console.log(urlarray[index]);
             await this.getproductdataA(urlarray[index],page,browser);
-            
+            await ProductDetailsWorker.updateDetailsBulk()
+
           }
 
         }
