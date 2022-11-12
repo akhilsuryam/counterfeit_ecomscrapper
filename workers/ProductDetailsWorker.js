@@ -24,7 +24,7 @@ class ProductDetailsWorker {
         try {
             if(mainArr.length > 0){
 
-                const query = 'INSERT IGNORE INTO `product_details` ( `id`, `product_id`, `url`, `status`, `title`, `description`, `selling_price`, `mrp`, `overall_rating`, `overall_reveiw`, `5_star_rating`, `4_star_rating`, `3_star_rating`, `2_star_rating`, `1_star_rating`, `5_star_review`, `4_star_review`, `3_star_review`, `2_star_review`, `1_star_review`, `assurance`, `review_link`, `platform_id`)VALUES ?;'
+                const query = 'INSERT IGNORE INTO `product_details` ( `url`,`title`, `description`, `mrp`,`selling_price`, `image_url`)VALUES ?;'
 
                 
                 result = await pool.query(query,[mainArr]);
@@ -49,7 +49,6 @@ class ProductDetailsWorker {
         }
     }
 
-// o to c changes
     static async updateReviewStatusByIds(status,ids){ // update review status O to C by id
         try {
             const query = `UPDATE ${TABLE} SET review_status= ? WHERE id=?;`;
