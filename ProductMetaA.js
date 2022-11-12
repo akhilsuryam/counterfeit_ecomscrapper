@@ -3,13 +3,14 @@ const Helper = require('./utils/helper');
 const config = require('./config/config');
 const bConfig = require('./config/browserConfig');
 const res = require('./config/Res');
-
+const ProductDetailsWorker =  require('./workers/ProductDetailsWorker');
 
 class ProductMeta{
-
-        static getproductdataA = async ()=> {
-            let [page,browser] = await Helper.createpage();
+        static getproductdataA = async (url,page,browser)=> {
+            // let [page,browser] = await Helper.createpage();
             page =await Helper.openurl(page,config.SCRAPE.amazon.product_url);
+            console.log("assemblytest",config.SCRAPE.amazon.product_url)
+            console.log("assemblytest",url) 
             // page.waitForNavigation()
             console.log("scrape")
             await page.click(config.SCRAPE.amazon.widget);
@@ -37,7 +38,18 @@ class ProductMeta{
                    
             // return [page,browser]      
         }
+        static main = async () =>{
+          let url = await ProductDetailsWorker.getProductUrls(1)
+          let urlarray = url.map(({url})=>(url));
+          console.log(urlarray)
+          let [page,browser] = await Helper.createpage();
+          for (let index = 0; index < urlarray.length; index++) {
+            console.log(urlarray[index]);
+            await this.getproductdataA(urlarray[index],page,browser);
+            
+          }
 
+        }
                
       }
 

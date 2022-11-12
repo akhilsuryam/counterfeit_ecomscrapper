@@ -7,7 +7,7 @@ class ProductDetailsWorker {
     
     static async getProductUrls(platform_id) {
         try {
-            const query = `select name from ${TABLE} where platform_id = ? limit 3;` ;
+            const query = `select url from ${TABLE} where platform_id = ? limit 3;` ;
             
             const result = await pool.query(query,[platform_id]);
 
