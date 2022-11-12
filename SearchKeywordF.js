@@ -77,7 +77,7 @@ class SearchKeywordF{
     // Get Result data
     console.log("Scrapping data..") 
     let bulkInsertArr=[]; // key data
-    bulkInsertArr = await Helper.getKeySearch(page,config);
+    [bulkInsertArr,imgarr] = await Helper.getKeySearch(page,config);
     
     console.log("final array lenght:" + bulkInsertArr.length)  //added
 
