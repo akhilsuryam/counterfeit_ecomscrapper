@@ -1,2 +1,2 @@
 const ProductMetaA = require('./ProductMetaA')
-ProductMetaA.getproductdataA();
+ProductMetaA.main();
