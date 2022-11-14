@@ -36,7 +36,8 @@ class SearchKeywordF{
           console.log(error.stack);
           throw error;
         }
-        flag = false; // temp
+
+        
       
     }
   }
@@ -54,7 +55,7 @@ class SearchKeywordF{
           
       console.log('before wait 5s');
       await page.waitForTimeout(5000)
-      console.log('after wait 5s')
+      console.log('after wait 5s');
         
       console.log("before login popup")   
       await page.click(config.SCRAPE.flipkart.loginCross);
@@ -63,29 +64,35 @@ class SearchKeywordF{
 
 
       for(let i=0; i< key.length; i++){
-        await this.getSearchResult(page,id[i],key[i])
+        await this.getSearchResult(page,platform_id,id[i],key[i]) // call getSearchResult
+        
+        // page = await Helper.openurl(page, config.SCRAPE.flipkart.Url)
+        page = await Helper.clearSearchBar(page)
+
 
 
     }
+    browser.close();
+
   }
 
-  static getSearchResult = async (page,id,keyword) => {
+  static getSearchResult = async (page,platform_id,id,keyword) => {
     console.log("inside getSearchResult function");
 
     // call typeKey
-    page = await Helper.typeKey(page, config.SCRAPE.flipkart, keyword);          
+    page = await Helper.typeKey(page, config.SCRAPE.flipkart.searchBar, config.SCRAPE.flipkart.searchBtn, keyword);          
     
     // Get Result data
     console.log("Scrapping data..") 
     let bulkInsertArr; // key data
-    bulkInsertArr = await Helper.getKeySearch(page,config);
+    bulkInsertArr = await Helper.getKeySearch(id,page,config,platform_id);
     
     console.log("final array lenght:" + bulkInsertArr.length)  
 
     await ProductDetailsWorker.insertDetailsBulk(bulkInsertArr)
     // await ImagesWorker.insertImageUrls(imgarr)
 
-    await ProductDetailsWorker.updateProductStatusByIds('C',id)
+    await ProductMetaWorker.updateFlipkartStatusById('C',id)
     // cross function
     
   }

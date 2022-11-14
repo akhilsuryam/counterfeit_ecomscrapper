@@ -13,6 +13,7 @@ const Helper = require('../utils/helper');
         'Woven, Embellished Banarasi Art Silk Saree',
         '₹1,249',
         '₹2,399',
+         false,
         'https://rukminim1.flixcart.com/image/452/542/l4ln8nk0/sari/1/v/p/free-aarya-ishika-fab-unstitched-original-imagfguy6emggfgb.jpeg?q=50'
       ],
       [
@@ -21,6 +22,7 @@ const Helper = require('../utils/helper');
         'Baby Boys Festive & Party Kurta, Waistcoat and Pyjama S...',
         '₹449',
         '₹1,299',
+        true,
         'https://awsminim1.flixcart.com/image/452/542/xif0q/kids-ethnic-set/i/c/y/1-2-years-wjs-mr-fashion-original-imaggnyyzhsceujt.jpeg?q=50'
       ]]
     
