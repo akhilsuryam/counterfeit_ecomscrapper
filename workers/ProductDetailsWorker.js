@@ -24,7 +24,7 @@ class ProductDetailsWorker {
         try {
             if(mainArr.length > 0){
 
-                const query = 'INSERT IGNORE INTO `product_details` ( `keyword_id`,`url`,`title`, `description`, `mrp`,`selling_price`, `image_url`)VALUES ?;'
+                const query = 'INSERT IGNORE INTO `product_details` ( `url`,`title`, `description`, `mrp`,`selling_price`, `image_url`)VALUES ?;'
 
                 
                 result = await pool.query(query,[mainArr]);

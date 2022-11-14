@@ -66,7 +66,7 @@ class ProductMetaWorker {
     static async updateFlipkartStatusById(status,id) { 
         try {
             let query = `update ${TABLE} set crawl_status_flipkart = ? where id =?`;
-            console.log('query ',query[status, id])
+            // console.log('query ',query[status, id])
             const result = await pool.query(query,[status, id]);
             //console.log('result ',result)
            // console.log(result[0].stateid);

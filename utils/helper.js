@@ -279,7 +279,7 @@ class Helper {
                           images = "undefined";
                       }
                       try {
-                          href_link = description[i].href;
+                          href_link = prod_name[i].href;
                       } catch (error) {
                           href_link = "undefined";
                       }
@@ -293,7 +293,7 @@ class Helper {
                           description : desc,
                           original_price : op, 
                           sale_price : sp,
-                          // assurance : asr,
+                          assurance : asr,
                           images : images,
                       }
                       console.log("object:",obj)
@@ -1164,22 +1164,22 @@ class Helper {
     return concatarr
     // NgoWorker.finalstausupdate(stateids);  
     }
-    static async typeKey(page,selector,keyword){    
+    static async typeKey(page,selector,keyword){
         await page.type(selector.searchBar, keyword , {delay: 100});  
           try {
-              await page.click(selector.searchBtn) 
+              await page.click(selectorBtn) 
               await page.waitForTimeout(2000);
           } catch (error) {
               console.log(error)
           }
         return page
     }
-    static async getKeySearch(page,config){
+    static async getKeySearch(id,page,config,platform_id){
         let flag = true;
         let page_count = 0;
         let metadata; // page data
         let temparr=[];
-        let imgarr=[];
+        // let imgarr=[];
         let bulkInsertArr = []; // key data
         while (flag) {
             page_count++;
@@ -1188,12 +1188,15 @@ class Helper {
             console.log("DATA OF PAGE:",page_count,metadata);
             // data_array.push(metadata);
             for(let i=0; i< metadata.length; i++){
+                temparr.push(id)
+                temparr.push(platform_id)
                 temparr.push(metadata[i].prod_link)
                 temparr.push(metadata[i].prod_name)
                 temparr.push(metadata[i].description)
                 temparr.push(metadata[i].original_price)
                 temparr.push(metadata[i].sale_price)
-                imgarr.push(metadata[i].images)
+                temparr.push(metadata[i].assurance)
+                temparr.push(metadata[i].images)
 
                 bulkInsertArr.push(temparr);
                 temparr=[]
@@ -1224,55 +1227,12 @@ class Helper {
     } 
     
 
-    static async getKeySearchAmazon(page,config){
-        let flag = true;
-        let page_count = 0;
-        let metadata; // page data
-        let temparr=[];
-        let imgarr=[];
-        let bulkInsertArr = []; // key data
-        while (flag) {
-            page_count++;
-            console.log("PAGE NUMBER:", page_count);
-            metadata = await this.getmetaDataA(page, config); // page data
-            console.log("DATA OF PAGE:",page_count,metadata);
-            // data_array.push(metadata);
-            for(let i=0; i< metadata.length; i++){
-                temparr.push(metadata[i].prod_link)
-                temparr.push(metadata[i].prod_name)
-                temparr.push(metadata[i].description)
-                temparr.push(metadata[i].original_price)
-                temparr.push(metadata[i].sale_price)
-                imgarr.push(metadata[i].images)
+}
 
-                bulkInsertArr.push(temparr);
-                temparr=[]
-            }
-            console.log('bulkInsertArr',bulkInsertArr)
-            console.log("==========================");
-            
-            if(page_count > 1){
-                flag = false;
-            }
-            else{
-                console.log("next page..");
-                console.log(config.SCRAPE.amazon.nextbtn);            
-                
-                try {   
-                    await page.click(config.SCRAPE.amazon.nextbtn);
-                    console.log('Before wait')
-                    await page.waitForTimeout(8000)
-                    console.log('After wait')
-                    
-                } catch (error) {
-                    console.log(error);
-                }
-    
-            }          
-        }
-        return bulkInsertArr, imgarr;
-    } 
-    
+
+
+
+
 
 }
 
