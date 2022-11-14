@@ -1,7 +1,8 @@
 const puppeteer = require('puppeteer');
 const bConfig = require('../config/browserConfig');
 const userAgents = require('../config/userAgents')
-const res = require('../config/Res')
+const res = require('../config/Res');
+const { config } = require('../database/database');
 class Helper {
 
     static getResolution = () => {
@@ -82,8 +83,11 @@ class Helper {
     static async getmetaDataA(page,config){
         try {
             let seltor = config.SCRAPE.amazon.prod_name;
+            let temparr =[]
+            let bulkInsertArr = []
             let productinfo =  await page.evaluate((config,seltor) =>{
                 let detarray = []
+                
                 let parent = document.getElementsByClassName(config.SCRAPE.amazon.parentclass);
                 console.log('parent.length:',parent.length);
                 let productnamejson
@@ -145,7 +149,20 @@ class Helper {
                 return detarray
               },config,seltor)
               console.log('PI',productinfo)
+              for(let i=0; i< productinfo.length; i++){
+                temparr.push(productinfo[i].prod_link)
+                temparr.push(productinfo[i].productname)
+                temparr.push(productinfo[i].productname)
+                temparr.push(productinfo[i].ogprice)
+                temparr.push(productinfo[i].price)
+                // imgarr.push(metadata[i].imagelink)
+                // console.log(temparr)
+                bulkInsertArr.push(temparr);
+                temparr=[]
+                // console.log(bulkInsertArr);
+              }
               return productinfo;
+            //   console.log(bulkInsertArr);
         } catch (error) {
             console.log("error",error)
             
@@ -1147,8 +1164,8 @@ class Helper {
     return concatarr
     // NgoWorker.finalstausupdate(stateids);  
     }
-    static async typeKey(page,selectorBar,selectorBtn,keyword){
-        await page.type(selectorBar, keyword , {delay: 100});  
+    static async typeKey(page,selector,keyword){
+        await page.type(selector.searchBar, keyword , {delay: 100});  
           try {
               await page.click(selectorBtn) 
               await page.waitForTimeout(2000);
@@ -1206,16 +1223,16 @@ class Helper {
     
             }          
         }
-        return bulkInsertArr;
-    }
-    static async clearSearchBar(page){
-        const input = await page.$('._3704LK');
-        await input.click({ clickCount: 4 })
-        // await input.type("Blah");
-        return page;
-        
-    }
+        return bulkInsertArr, imgarr;
+    } 
     
+
+}
+
+
+
+
+
 
 }
 
