@@ -1,7 +1,8 @@
 const puppeteer = require('puppeteer');
 const bConfig = require('../config/browserConfig');
 const userAgents = require('../config/userAgents')
-const res = require('../config/Res')
+const res = require('../config/Res');
+const { config } = require('../database/database');
 class Helper {
 
     static getResolution = () => {
@@ -82,8 +83,11 @@ class Helper {
     static async getmetaDataA(page,config){
         try {
             let seltor = config.SCRAPE.amazon.prod_name;
+            let temparr =[]
+            let bulkInsertArr = []
             let productinfo =  await page.evaluate((config,seltor) =>{
                 let detarray = []
+                
                 let parent = document.getElementsByClassName(config.SCRAPE.amazon.parentclass);
                 console.log('parent.length:',parent.length);
                 let productnamejson
@@ -145,7 +149,20 @@ class Helper {
                 return detarray
               },config,seltor)
               console.log('PI',productinfo)
+              for(let i=0; i< productinfo.length; i++){
+                temparr.push(productinfo[i].prod_link)
+                temparr.push(productinfo[i].productname)
+                temparr.push(productinfo[i].productname)
+                temparr.push(productinfo[i].ogprice)
+                temparr.push(productinfo[i].price)
+                // imgarr.push(metadata[i].imagelink)
+                // console.log(temparr)
+                bulkInsertArr.push(temparr);
+                temparr=[]
+                // console.log(bulkInsertArr);
+              }
               return productinfo;
+            //   console.log(bulkInsertArr);
         } catch (error) {
             console.log("error",error)
             
@@ -1147,7 +1164,7 @@ class Helper {
     return concatarr
     // NgoWorker.finalstausupdate(stateids);  
     }
-    static async typeKey(page,selector,keyword){
+    static async typeKey(page,selector,keyword){    
         await page.type(selector.searchBar, keyword , {delay: 100});  
           try {
               await page.click(selector.searchBtn) 
@@ -1193,6 +1210,56 @@ class Helper {
                 
                 try {   
                     await page.click(config.SCRAPE.flipkart.nextbtn);
+                    console.log('Before wait')
+                    await page.waitForTimeout(8000)
+                    console.log('After wait')
+                    
+                } catch (error) {
+                    console.log(error);
+                }
+    
+            }          
+        }
+        return bulkInsertArr, imgarr;
+    } 
+    
+
+    static async getKeySearchAmazon(page,config){
+        let flag = true;
+        let page_count = 0;
+        let metadata; // page data
+        let temparr=[];
+        let imgarr=[];
+        let bulkInsertArr = []; // key data
+        while (flag) {
+            page_count++;
+            console.log("PAGE NUMBER:", page_count);
+            metadata = await this.getmetaDataA(page, config); // page data
+            console.log("DATA OF PAGE:",page_count,metadata);
+            // data_array.push(metadata);
+            for(let i=0; i< metadata.length; i++){
+                temparr.push(metadata[i].prod_link)
+                temparr.push(metadata[i].prod_name)
+                temparr.push(metadata[i].description)
+                temparr.push(metadata[i].original_price)
+                temparr.push(metadata[i].sale_price)
+                imgarr.push(metadata[i].images)
+
+                bulkInsertArr.push(temparr);
+                temparr=[]
+            }
+            console.log('bulkInsertArr',bulkInsertArr)
+            console.log("==========================");
+            
+            if(page_count > 1){
+                flag = false;
+            }
+            else{
+                console.log("next page..");
+                console.log(config.SCRAPE.amazon.nextbtn);            
+                
+                try {   
+                    await page.click(config.SCRAPE.amazon.nextbtn);
                     console.log('Before wait')
                     await page.waitForTimeout(8000)
                     console.log('After wait')
