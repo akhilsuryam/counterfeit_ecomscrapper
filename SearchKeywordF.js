@@ -43,6 +43,7 @@ class SearchKeywordF{
   }
 
     static main = async (platform_id,keywords) => {
+      console.log('platform_id', platform_id)
       let key = keywords.map(({name})=>(name));
       let id = keywords.map(({id})=>(id));
       console.log("key:",key)
