@@ -47,7 +47,7 @@ class ProductMeta{
           for (let index = 0; index < urlarray.length; index++) {
             console.log(urlarray[index]);
             await this.getproductdataA(urlarray[index],page,browser);
-            await ProductDetailsWorker.updateDetailsBulk()
+            // await ProductDetailsWorker.updateDetailsBulk()
 
           }
 

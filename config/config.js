@@ -3,7 +3,7 @@ const SCRAPE = {
     amazon:{
         Url:'https://www.amazon.in',
         product_url:'https://www.amazon.in/Ferrero-78205-Rocher-16-Pieces/dp/B00BYQEIL6/ref=sr_1_5?keywords=ferrero+rocher+chocolates&qid=1666678394&qu=eyJxc2MiOiI0LjM4IiwicXNhIjoiNC4xNiIsInFzcCI6IjMuMzkifQ%3D%3D&sprefix=ferer%2Caps%2C560&sr=8-5',
-        review_url:'https://www.amazon.in/product-reviews/B077SZ667X/ref=cm_cr_getr_d_paging_btm_next_2?ie=UTF8&filterByStar=one_star&reviewerType=all_reviews&pageNumber=3#reviews-filter-bar',
+        review_url:'https://www.amazon.in/Ferrero-78205-Rocher-16-Pieces/dp/B00BYQEIL6/ref=sr_1_5?keywords=chocolate&sr=8-5',
         searchBar:'#twotabsearchtextbox',
         searchBtn:'#nav-search-submit-button',
         prod_name:'a-text-normal',
